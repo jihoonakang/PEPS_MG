@@ -1,7 +1,6 @@
 module rbgs_poisson_matrix
 
     use mpi
-    use timer
     use poisson_matrix_operator
 
     implicit none
@@ -15,20 +14,20 @@ module rbgs_poisson_matrix
 
     subroutine rbgs_solver_poisson_matrix(sol, a_poisson, rhs, dm, maxiteration, tolerance, omega, is_aggregated)
 
-        use matrix, only        : matrix_poisson
+        use matrix, only        : matrix_heptadiagonal
         use geometry, only      : subdomain, geometry_halocell_update_selectively
         use mpi_topology, only  : myrank, comm_1d_x, comm_1d_y, comm_1d_z
 
         implicit none
 
-        real(kind=8),   intent(inout)       :: sol(0:,0:,0:)
-        type(matrix_poisson), intent(in)    :: a_poisson
-        real(kind=8),   intent(in)          :: rhs(0:,0:,0:)
-        type(subdomain), intent(in)         :: dm
-        integer(kind=4), intent(in)         :: maxiteration
-        real(kind=8), intent(in)            :: tolerance
-        real(kind=8), intent(in)            :: omega
-        logical, intent(in)                 :: is_aggregated(0:2)
+        real(kind=8),   intent(inout)           :: sol(0:,0:,0:)
+        type(matrix_heptadiagonal), intent(in)  :: a_poisson
+        real(kind=8),   intent(in)              :: rhs(0:,0:,0:)
+        type(subdomain), intent(in)             :: dm
+        integer(kind=4), intent(in)             :: maxiteration
+        real(kind=8), intent(in)                :: tolerance
+        real(kind=8), intent(in)                :: omega
+        logical, intent(in)                     :: is_aggregated(0:2)
 
         integer(kind=4)     :: i, j, k, iter, ista, offset
         real(kind=8)        :: rsd0tol=0.0d0, temp, rsd_norm = 0.0d0
@@ -41,7 +40,7 @@ module rbgs_poisson_matrix
 
         rsd(:,:,:)  = 0.0d0
 
-        call mv_mul_poisson_matrix0(rsd, a_poisson, sol, dm, is_aggregated)
+        call mv_mul_poisson_matrix(rsd, a_poisson, sol, dm, is_aggregated)
 !$omp parallel do shared(rsd,rhs)
         do k = 1, dm%nz
             do j = 1, dm%ny
@@ -50,7 +49,7 @@ module rbgs_poisson_matrix
                 enddo
             enddo
         enddo
-        call vv_dot_3d_matrix0(rsd0tol, rsd, rsd, dm%nx, dm%ny, dm%nz, is_aggregated)
+        call vv_dot_3d_matrix(rsd0tol, rsd, rsd, dm%nx, dm%ny, dm%nz, is_aggregated)
         rsd_norm = rsd0tol
 
         offset = mod(mod(dm%nx,2)*mod(comm_1d_x%myrank,2) &
@@ -58,13 +57,13 @@ module rbgs_poisson_matrix
                     +mod(dm%nz,2)*mod(comm_1d_z%myrank,2),2 )
         do iter=0, maxiteration-1
 
+#ifdef MESSAGE_DETAIL
             if ((mod(iter,20).EQ.0).AND.(myrank.eq.0)) then
                 print 101, sqrt(rsd_norm), sqrt(rsd_norm/rsd0tol), sqrt(rsd0tol), iter
                 101   format('   [RBGS solver] mse: ',e14.6,x,', r_mse: ',e14.6,x,', rsd0: ',e14.6,' at ',i5,' iterations.')
             endif
-            call timer_comm_stamp0
+#endif
             call geometry_halocell_update_selectively(sol, dm, is_aggregated)
-            call timer_comm_stamp(34)
 
 !$omp parallel do shared(a_poisson, sol)
             do k = 1, dm%nz
@@ -81,9 +80,7 @@ module rbgs_poisson_matrix
                     enddo
                 enddo
             enddo
-            call timer_comm_stamp0
             call geometry_halocell_update_selectively(sol, dm, is_aggregated)
-            call timer_comm_stamp(34)
 
 !$omp parallel do shared(a_poisson, sol)
             do k = 1, dm%nz
@@ -101,7 +98,7 @@ module rbgs_poisson_matrix
                 enddo
             enddo
 
-            call mv_mul_poisson_matrix0(rsd, a_poisson, sol, dm, is_aggregated)
+            call mv_mul_poisson_matrix(rsd, a_poisson, sol, dm, is_aggregated)
 !$omp parallel do shared(rsd,rhs)
             do k = 1, dm%nz
                 do j = 1, dm%ny
@@ -111,7 +108,7 @@ module rbgs_poisson_matrix
                 enddo
             enddo
 
-            call vv_dot_3d_matrix0(rsd_norm, rsd, rsd, dm%nx, dm%ny, dm%nz, is_aggregated)
+            call vv_dot_3d_matrix(rsd_norm, rsd, rsd, dm%nx, dm%ny, dm%nz, is_aggregated)
             if(sqrt(rsd_norm/rsd0tol).le.tolerance) then
                 exit
             endif
@@ -126,19 +123,19 @@ module rbgs_poisson_matrix
 
     subroutine rbgs_iterator_poisson_matrix(sol, a_poisson, rhs, dm, maxiteration, omega, is_aggregated)
 
-        use matrix, only        : matrix_poisson
+        use matrix, only        : matrix_heptadiagonal
         use geometry, only      : subdomain, geometry_halocell_update_selectively
         use mpi_topology, only  : myrank, comm_1d_x, comm_1d_y, comm_1d_z
 
         implicit none
 
-        real(kind=8),   intent(inout)       :: sol(0:,0:,0:)
-        type(matrix_poisson), intent(in)    :: a_poisson
-        real(kind=8),   intent(in)          :: rhs(0:,0:,0:)
-        type(subdomain), intent(in)         :: dm
-        integer(kind=4),intent(in)          :: maxiteration
-        real(kind=8), intent(in)            :: omega
-        logical, intent(in)                 :: is_aggregated(0:2)
+        real(kind=8),   intent(inout)           :: sol(0:,0:,0:)
+        type(matrix_heptadiagonal), intent(in)  :: a_poisson
+        real(kind=8),   intent(in)              :: rhs(0:,0:,0:)
+        type(subdomain), intent(in)             :: dm
+        integer(kind=4),intent(in)              :: maxiteration
+        real(kind=8), intent(in)                :: omega
+        logical, intent(in)                     :: is_aggregated(0:2)
 
         integer(kind=4)     :: i, j, k, iter, ista, offset, is_same(0:2)
         real(kind=8)        :: temp
@@ -167,9 +164,7 @@ module rbgs_poisson_matrix
 
         do iter=0, maxiteration-1
 
-            call timer_comm_stamp0
             call geometry_halocell_update_selectively(sol, dm, is_aggregated)
-            call timer_comm_stamp(33)
 
 !$omp parallel do shared(a_poisson, sol)
             do k = 1, dm%nz
@@ -187,9 +182,7 @@ module rbgs_poisson_matrix
                 enddo
             enddo
 
-            call timer_comm_stamp0
             call geometry_halocell_update_selectively(sol, dm, is_aggregated)
-            call timer_comm_stamp(33)
 
 !$omp parallel do shared(a_poisson, sol)
             do k = 1, dm%nz
@@ -209,7 +202,9 @@ module rbgs_poisson_matrix
 
         enddo
 
+#ifdef MESSAGE_DETAIL
         if(myrank.eq.0) print '(a,i4)','   [RBGS iterator] Iteration completed. Iter. = ',iter
+#endif
         
     end subroutine rbgs_iterator_poisson_matrix
 

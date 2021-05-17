@@ -32,10 +32,10 @@ npz = 4
 maxiteration = 1
 tolerance = 1.0d-10
 number_of_vcycles = 3
-number_of_levels = 6
-aggregation_method = 0
-single_aggregation_level = 0
-adaptive_aggregation_level = 5, 3, 4
+number_of_levels = 11
+aggregation_method = 2
+CGA_level = 6
+CGPSA_level = 9, 6, 8
 omega_sor = 1.6d0
 /
 

@@ -15,19 +15,19 @@ module cg_poisson_matrix
 
     subroutine cg_solver_poisson_matrix(sol, a_poisson, rhs, dm, maxiteration, tolerance, is_aggregated)
 
-        use matrix, only        : matrix_poisson
+        use matrix, only        : matrix_heptadiagonal
         use geometry, only      : subdomain
         use mpi_topology, only  : myrank
 
         implicit none
 
-        real(kind=8),   intent(inout)       :: sol(0:,0:,0:)
-        type(matrix_poisson),intent(in)     :: a_poisson
-        real(kind=8),   intent(in)          :: rhs(0:,0:,0:)
-        type(subdomain), intent(in)         :: dm
-        integer(kind=4),intent(in)          :: maxiteration
-        real(kind=8),   intent(in)          :: tolerance
-        logical, intent(in)                 :: is_aggregated(0:2)
+        real(kind=8),   intent(inout)           :: sol(0:,0:,0:)
+        type(matrix_heptadiagonal),intent(in)   :: a_poisson
+        real(kind=8),   intent(in)              :: rhs(0:,0:,0:)
+        type(subdomain), intent(in)             :: dm
+        integer(kind=4),intent(in)              :: maxiteration
+        real(kind=8),   intent(in)              :: tolerance
+        logical, intent(in)                     :: is_aggregated(0:2)
 
         integer(kind=4)     :: i, j, k, iter
         real(kind=8)        :: alpha=0.0d0, beta=0.0d0, temp1=0.0d0, temp2=0.0d0, rsd0tol=0.0d0
@@ -46,12 +46,12 @@ module cg_poisson_matrix
         rsd(:,:,:)  = 0.0d0
         call mv_mul_poisson_matrix(ax, a_poisson, sol, dm, is_aggregated)
 
-    ! #ifdef USE_MKL
-    !     call dcopy(row_size, rhs, 1, rsd, 1)
-    !     call daxpy(row_size, -1.0d0, ax, 1, rsd, 1)
-    !     call dcopy(row_size, rsd, 1, p, 1)
-    ! #else
-    !$omp parallel do shared(rsd,rhs,ax,p)
+#ifdef USE_MKL
+        call dcopy(row_size, rhs, 1, rsd, 1)
+        call daxpy(row_size, -1.0d0, ax, 1, rsd, 1)
+        call dcopy(row_size, rsd, 1, p, 1)
+#else
+!$omp parallel do shared(rsd,rhs,ax,p)
         do k = 1, dm%nz
             do j = 1, dm%ny
                 do i = 1, dm%nx
@@ -60,7 +60,7 @@ module cg_poisson_matrix
                 enddo
             enddo
         enddo
-    ! #endif
+#endif
 
         call vv_dot_3d_matrix(rsd0tol, rsd, rsd, dm%nx, dm%ny, dm%nz, is_aggregated)
         if(myrank.eq.0) print '(a)', '[CG] Conjugate gradient is started.'
@@ -81,11 +81,11 @@ module cg_poisson_matrix
 
             alpha=temp1/temp2
 
-    ! #ifdef USE_MKL
-    !         call daxpy(row_size, alpha, p, 1, sol, 1)
-    !         call daxpy(row_size, -alpha, Ap, 1, rsd, 1)
-    ! #else
-    !$omp parallel do shared(sol,p,rsd,Ap) firstprivate(alpha)
+#ifdef USE_MKL
+            call daxpy(row_size, alpha, p, 1, sol, 1)
+            call daxpy(row_size, -alpha, Ap, 1, rsd, 1)
+#else
+!$omp parallel do shared(sol,p,rsd,Ap) firstprivate(alpha)
             do k = 1, dm%nz
                 do j = 1, dm%ny
                     do i = 1, dm%nx
@@ -94,7 +94,7 @@ module cg_poisson_matrix
                     enddo
                 enddo
             enddo
-    ! #endif
+#endif
 
             call vv_dot_3d_matrix(temp2, rsd, rsd, dm%nx, dm%ny, dm%nz, is_aggregated)
 
@@ -102,11 +102,11 @@ module cg_poisson_matrix
 
             beta = temp2/temp1
 
-    ! #ifdef USE_MKL
-    !         call dscal(row_size, beta, p, 1)
-    !         call daxpy(row_size, 1.0d0, rsd, 1, p, 1)
-    ! #else
-    !$omp parallel do shared(p,rsd) firstprivate(beta)
+#ifdef USE_MKL
+            call dscal(row_size, beta, p, 1)
+            call daxpy(row_size, 1.0d0, rsd, 1, p, 1)
+#else
+!$omp parallel do shared(p,rsd) firstprivate(beta)
             do k = 1, dm%nz
                 do j = 1, dm%ny
                     do i = 1, dm%nx
@@ -114,7 +114,7 @@ module cg_poisson_matrix
                     enddo
                 enddo
             enddo
-    ! #endif
+#endif
 
         enddo
         if(myrank.eq.0) print '(a,i5,a,e15.7,a,e15.7)','[CG] Finished with total iteration = ',iter,', mse = ',sqrt(temp2),'r_mse = ',sqrt(temp2/rsd0tol)
@@ -128,18 +128,18 @@ module cg_poisson_matrix
 
     subroutine cg_iterator_poisson_matrix(sol, a_poisson, rhs, dm, maxiteration, is_aggregated)
 
-        use matrix, only        : matrix_poisson
+        use matrix, only        : matrix_heptadiagonal
         use geometry, only      : subdomain
         use mpi_topology, only  : myrank
 
         implicit none
 
-        real(kind=8),   intent(inout)       :: sol(0:,0:,0:)
-        type(matrix_poisson), intent(in)    :: a_poisson
-        real(kind=8),   intent(in)          :: rhs(0:,0:,0:)
-        type(subdomain), intent(in)         :: dm
-        integer(kind=4),intent(in)          :: maxiteration
-        logical, intent(in)                 :: is_aggregated(0:2)
+        real(kind=8),   intent(inout)           :: sol(0:,0:,0:)
+        type(matrix_heptadiagonal), intent(in)  :: a_poisson
+        real(kind=8),   intent(in)              :: rhs(0:,0:,0:)
+        type(subdomain), intent(in)             :: dm
+        integer(kind=4),intent(in)              :: maxiteration
+        logical, intent(in)                     :: is_aggregated(0:2)
 
         integer(kind=4)     :: i, j, k, iter
         real(kind=8)        :: alpha=0.0d0, beta=0.0d0, temp1=0.0d0, temp2=0.0d0
@@ -158,12 +158,12 @@ module cg_poisson_matrix
         rsd(:,:,:)  = 0.0d0
         call mv_mul_poisson_matrix(ax, a_poisson, sol, dm, is_aggregated)
 
-    ! #ifdef USE_MKL
-    !     call dcopy(row_size, rhs, 1, rsd, 1)
-    !     call daxpy(row_size, -1.0d0, ax, 1, rsd, 1)
-    !     call dcopy(row_size, rsd, 1, p, 1)
-    ! #else
-    !$omp parallel do shared(rsd,rhs,ax,p)
+#ifdef USE_MKL
+        call dcopy(row_size, rhs, 1, rsd, 1)
+        call daxpy(row_size, -1.0d0, ax, 1, rsd, 1)
+        call dcopy(row_size, rsd, 1, p, 1)
+#else
+!$omp parallel do shared(rsd,rhs,ax,p)
         do k = 1, dm%nz
             do j = 1, dm%ny
                 do i = 1, dm%nx
@@ -172,7 +172,7 @@ module cg_poisson_matrix
                 enddo
             enddo
         enddo
-    ! #endif
+#endif
 
         do iter=0, maxiteration-1
 
@@ -183,11 +183,11 @@ module cg_poisson_matrix
 
             alpha=temp1/temp2
 
-    ! #ifdef USE_MKL
-    !         call daxpy(row_size, alpha, p, 1, sol, 1)
-    !         call daxpy(row_size, -alpha, Ap, 1, rsd, 1)
-    ! #else
-    !$omp parallel do shared(sol,p,rsd,Ap) firstprivate(alpha)
+#ifdef USE_MKL
+            call daxpy(row_size, alpha, p, 1, sol, 1)
+            call daxpy(row_size, -alpha, Ap, 1, rsd, 1)
+#else
+!$omp parallel do shared(sol,p,rsd,Ap) firstprivate(alpha)
             do k = 1, dm%nz
                 do j = 1, dm%ny
                     do i = 1, dm%nx
@@ -196,17 +196,17 @@ module cg_poisson_matrix
                     enddo
                 enddo
             enddo
-    ! #endif
+#endif
 
             call vv_dot_3d_matrix(temp2, rsd, rsd, dm%nx, dm%ny, dm%nz, is_aggregated)
 
             beta = temp2/temp1
 
-    ! #ifdef USE_MKL
-    !         call dscal(row_size, beta, p, 1)
-    !         call daxpy(row_size, 1.0d0, rsd, 1, p, 1)
-    ! #else
-    !$omp parallel do shared(p,rsd) firstprivate(beta)
+#ifdef USE_MKL
+            call dscal(row_size, beta, p, 1)
+            call daxpy(row_size, 1.0d0, rsd, 1, p, 1)
+#else
+!$omp parallel do shared(p,rsd) firstprivate(beta)
             do k = 1, dm%nz
                 do j = 1, dm%ny
                     do i = 1, dm%nx
@@ -214,7 +214,7 @@ module cg_poisson_matrix
                     enddo
                 enddo
             enddo
-    ! #endif
+#endif
 
         enddo
         if(myrank.eq.0) print '(a,i5,a,e15.7)','   [CG] CG iterator completed with total iteration = ',iter,', mse = ',sqrt(temp2)

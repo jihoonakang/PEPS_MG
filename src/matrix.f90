@@ -2,19 +2,19 @@ module matrix
 
     implicit none
 
-    type, public        :: matrix_poisson
+    type, public        :: matrix_heptadiagonal
         integer(kind=4)                 :: dof
         real(kind=8), allocatable       :: coeff(:,:,:,:)
-    end type matrix_poisson
+    end type matrix_heptadiagonal
 
     contains
 
-    subroutine matrix_poisson_create(a_poisson, sdm)
+    subroutine matrix_heptadiagonal_create(a_poisson, sdm)
 
         use geometry, only : subdomain
         implicit none
 
-        type(matrix_poisson), intent(inout)     :: a_poisson
+        type(matrix_heptadiagonal), intent(inout)     :: a_poisson
         type(subdomain), intent(in)         :: sdm
 
         integer(kind=4) :: i, j, k
@@ -53,17 +53,17 @@ module matrix
             enddo
         enddo
 
-    end subroutine matrix_poisson_create
+    end subroutine matrix_heptadiagonal_create
 
-    subroutine matrix_poisson_destroy(a_poisson)
+    subroutine matrix_heptadiagonal_destroy(a_poisson)
 
         implicit none
 
-        type(matrix_poisson), intent(inout)     :: a_poisson
+        type(matrix_heptadiagonal), intent(inout)     :: a_poisson
 
         a_poisson%dof = 0
         deallocate( a_poisson%coeff )
         
-    end subroutine matrix_poisson_destroy
+    end subroutine matrix_heptadiagonal_destroy
 
 end module matrix

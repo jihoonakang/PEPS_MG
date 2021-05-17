@@ -1,16 +1,16 @@
 # Aggregation method
-- No_aggregation (done)
-- Single_aggregation (done)
-- Adaptive_aggregation
+- CGS (done)
+- CGA (done)
+- CGPSA
 
-# No_aggregation
+# CGS
 - subdomain_create_without_aggregation
 
-# Single_aggregation
-- subdomain_create_with_single_aggregation
+# CGA
+- subdomain_create_with_CGA
 
-# Adaptive_aggregation
-- subdomain_create_wit_adaptive_aggregation
+# CGPSA
+- subdomain_create_wit_CGPSA
 
 # Other todo list
 - Verification of aggregation methods : No / Single done

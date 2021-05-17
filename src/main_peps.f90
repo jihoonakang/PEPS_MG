@@ -1,7 +1,6 @@
 program main
 
     use mpi
-    use timer
     use mpi_topology
     use multigrid
     use geometry
@@ -21,7 +20,7 @@ program main
 
     type(domain)                    :: g_domain
     type(subdomain)                 :: s_domain
-    type(matrix_poisson)            :: a_poisson
+    type(matrix_heptadiagonal)      :: a_poisson
 
     real(kind=8), allocatable       :: ref_sub(:,:,:)
     real(kind=8), allocatable       :: u_x, u_y, u_z
@@ -32,7 +31,7 @@ program main
     ! 0 : no aggregation
     ! 1 : single aggregation
     ! 2 : adaptive aggregation (not implemented yet)
-    integer(kind=4) :: i, j, k, maxiteration, number_of_vcycles, number_of_levels, aggregation_method, single_aggregation_level, adaptive_aggregation_level(3)
+    integer(kind=4) :: i, j, k, maxiteration, number_of_vcycles, number_of_levels, aggregation_method, CGA_level, CGPSA_level(3)
     real(kind=8)    :: tolerance, t0, omega_sor
     ! character(256)  :: myfilename
 
@@ -42,14 +41,12 @@ program main
     call MPI_Comm_size( MPI_COMM_WORLD, nprocs, ierr)
     call MPI_Comm_rank( MPI_COMM_WORLD, myrank, ierr)
 
-    call timer_init
-
     namelist /meshes/ nx, ny, nz
     namelist /origin/ ox, oy, oz
     namelist /length/ lx, ly, lz
     namelist /mesh_stretch/ ax, ay, az
     namelist /procs/ npx, npy, npz
-    namelist /control/ maxiteration, tolerance, number_of_vcycles, number_of_levels, aggregation_method, single_aggregation_level, adaptive_aggregation_level, omega_sor
+    namelist /control/ maxiteration, tolerance, number_of_vcycles, number_of_levels, aggregation_method, CGA_level, CGPSA_level, omega_sor
     namelist /coefficients/ alpha_x, alpha_y, alpha_z
 
     open (unit = 1, file = "PARA_INPUT.inp")
@@ -162,14 +159,14 @@ program main
 
     if(myrank.eq.0) print '(a)', '[Poisson] Geometry and rhs constructed.'
 
-    call matrix_poisson_create(a_poisson, s_domain)
+    call matrix_heptadiagonal_create(a_poisson, s_domain)
     if(myrank.eq.0) print '(a)', '[Poisson] Poisson matrix constructed.'
 
     if(myrank.eq.0) print '(a)', '[Poisson] Start solving equations.'
 
     t0=MPI_Wtime()
 
-    call multigrid_create(s_domain, number_of_levels, number_of_vcycles, aggregation_method, single_aggregation_level, adaptive_aggregation_level)
+    call multigrid_create(s_domain, number_of_levels, number_of_vcycles, aggregation_method, CGA_level, CGPSA_level)
     call multigrid_solve_vcycle(s_domain%x, s_domain%r, a_poisson, s_domain%b, s_domain, maxiteration, tolerance, omega_sor)
     call multigrid_destroy
     rms = 0.0d0
@@ -185,9 +182,6 @@ program main
     if(myrank.eq.0) print '(a,e20.10)','[Poisson] RMS = ',rms/g_domain%nx/g_domain%ny/g_domain%nz
     if(myrank.eq.0) print '(a,f12.6)', '[Poisson] Solution obtained. Execution time = ',MPI_Wtime()-t0
 
-    call timer_reduction
-    call timer_output
-
     ! call file_write
     ! call binary_file_check
 
@@ -195,7 +189,7 @@ program main
 
     deallocate(ref_sub)
 
-    call matrix_poisson_destroy(a_poisson)
+    call matrix_heptadiagonal_destroy(a_poisson)
     call mpi_topology_destroy
     call geometry_subdomain_ddt_destroy(s_domain)
     call geometry_subdomain_destroy(s_domain)

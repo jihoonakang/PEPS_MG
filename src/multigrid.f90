@@ -1,7 +1,6 @@
 module multigrid
 
     use mpi
-    use timer
     use geometry
     use matrix
     use cg_poisson_matrix
@@ -27,8 +26,8 @@ module multigrid
     integer(kind=4)         :: lv_aggregation_max
     integer(kind=4)         :: aggregation_type
 
-    type(subdomain), allocatable, target        :: mg_sdm(:)
-    type(matrix_poisson), allocatable           :: mg_a_poisson(:)
+    type(subdomain), allocatable, target            :: mg_sdm(:)
+    type(matrix_heptadiagonal), allocatable         :: mg_a_poisson(:)
 
     public  :: multigrid_create
     public  :: multigrid_solve_vcycle
@@ -74,11 +73,11 @@ module multigrid
 
         select case(aggregation_type)
         case(0)
-            call multigrid_subdomain_create_no_aggregation(sdm)
+            call multigrid_subdomain_create_CGS(sdm)
         case(1)
-            call multigrid_subdomain_create_single_aggregation(sdm)
+            call multigrid_subdomain_create_CGA(sdm)
         case(2)
-            call multigrid_subdomain_create_adaptive_aggregation(sdm)
+            call multigrid_subdomain_create_CGPSA(sdm)
         case default
             if(myrank.eq.0) print '(a,i2)', '[Error] Aggregation method should be 0, 1, or 2.', aggregation_type
             call MPI_Finalize(ierr)
@@ -98,7 +97,7 @@ module multigrid
         allocate(mg_a_poisson(n_levels))
 
         do l = 1, n_levels
-            call matrix_poisson_create(mg_a_poisson(l), mg_sdm(l))
+            call matrix_heptadiagonal_create(mg_a_poisson(l), mg_sdm(l))
         enddo
         
         if(myrank.eq.0) print '(a)','[MG] Poisson matrix in multigrid constructed.'
@@ -115,7 +114,7 @@ module multigrid
 
     end subroutine multigrid_create
 
-    subroutine multigrid_subdomain_create_no_aggregation(sdm)
+    subroutine multigrid_subdomain_create_CGS(sdm)
 
         use mpi_topology, only : comm_1d_x, comm_1d_y, comm_1d_z
         use mpi_topology, only : myrank
@@ -132,7 +131,7 @@ module multigrid
 
         if(myrank.eq.0) print '(a)', '[MG] Grid coarsening without aggregation.'
         if(lv_aggregation.ne.0) then
-            if(myrank.eq.0) print '(a)', '[Error] Aggretation level should be 0 for no aggregation method.'
+            if(myrank.eq.0) print '(a)', '[Error] Aggretation level should be 0 for CGS method.'
             call MPI_Finalize(ierr)
             stop
         endif
@@ -256,7 +255,7 @@ module multigrid
             allocate(mg_sdm(l)%dxg(0:nx+1))
             allocate(mg_sdm(l)%xg(0:nx+1))
 
-            call multigrid_subdomain_no_aggregation_make_grid(mg_sdm(l)%dxm, mg_sdm(l)%dxg, mg_sdm(l)%xg, nx, &
+            call multigrid_subdomain_CGS_make_grid(mg_sdm(l)%dxm, mg_sdm(l)%dxg, mg_sdm(l)%xg, nx, &
                                                                     dxm_f, dxg_f, xg_f, sdm%ox, &
                                                                     l, lv_gdm_coarsest_x, comm_1d_x,'x')
             nullify(dxm_f, dxg_f, xg_f)
@@ -280,7 +279,7 @@ module multigrid
             allocate(mg_sdm(l)%dyg(0:ny+1))
             allocate(mg_sdm(l)%yg(0:ny+1))
 
-            call multigrid_subdomain_no_aggregation_make_grid(mg_sdm(l)%dym, mg_sdm(l)%dyg, mg_sdm(l)%yg, ny, &
+            call multigrid_subdomain_CGS_make_grid(mg_sdm(l)%dym, mg_sdm(l)%dyg, mg_sdm(l)%yg, ny, &
                                                                     dym_f, dyg_f, yg_f, sdm%oy, &
                                                                     l, lv_gdm_coarsest_y, comm_1d_y,'y')
 
@@ -306,7 +305,7 @@ module multigrid
             allocate(mg_sdm(l)%dzg(0:nz+1))
             allocate(mg_sdm(l)%zg(0:nz+1))
 
-            call multigrid_subdomain_no_aggregation_make_grid(mg_sdm(l)%dzm, mg_sdm(l)%dzg, mg_sdm(l)%zg, nz, &
+            call multigrid_subdomain_CGS_make_grid(mg_sdm(l)%dzm, mg_sdm(l)%dzg, mg_sdm(l)%zg, nz, &
                                                                     dzm_f, dzg_f, zg_f, sdm%oz, &
                                                                     l, lv_gdm_coarsest_z, comm_1d_z,'z')
 
@@ -319,9 +318,9 @@ module multigrid
         enddo
         nullify(dzm_f, dzg_f, zg_f)
 
-    end subroutine multigrid_subdomain_create_no_aggregation
+    end subroutine multigrid_subdomain_create_CGS
 
-    subroutine multigrid_subdomain_no_aggregation_make_grid(dxm, dxg, xg, nx, dxm_f, dxg_f, xg_f, &
+    subroutine multigrid_subdomain_CGS_make_grid(dxm, dxg, xg, nx, dxm_f, dxg_f, xg_f, &
                                                                 ox, lv_cur, lv_coarsest, comm_1d, dir)
 
         use mpi_topology, only : cart_comm_1d, myrank
@@ -386,9 +385,9 @@ module multigrid
             xg(0:nx+1)  = xg_f(0:nx+1)
         endif
 
-    end subroutine multigrid_subdomain_no_aggregation_make_grid
+    end subroutine multigrid_subdomain_CGS_make_grid
 
-    subroutine multigrid_subdomain_create_single_aggregation(sdm)
+    subroutine multigrid_subdomain_create_CGA(sdm)
 
         use mpi_topology, only : comm_1d_x, comm_1d_y, comm_1d_z
         use mpi_topology, only : myrank
@@ -680,7 +679,7 @@ module multigrid
 
         nullify(dzm_f, dzg_f, zg_f)
 
-    end subroutine multigrid_subdomain_create_single_aggregation
+    end subroutine multigrid_subdomain_create_CGA
 
     subroutine multigrid_subdomain_aggregation_make_grid(dxm, dxg, xg, nx, dxm_f, dxg_f, xg_f, &
                                                         ox, lv_cur, lv_coarsest, lv_aggregation, &
@@ -791,7 +790,7 @@ module multigrid
 
     end subroutine multigrid_subdomain_aggregation_make_grid
 
-    subroutine multigrid_subdomain_create_adaptive_aggregation(sdm)
+    subroutine multigrid_subdomain_create_CGPSA(sdm)
 
         use mpi_topology, only : comm_1d_x, comm_1d_y, comm_1d_z
         use mpi_topology, only : myrank
@@ -1042,7 +1041,7 @@ module multigrid
 
         nullify(dzm_f, dzg_f, zg_f)
 
-    end subroutine multigrid_subdomain_create_adaptive_aggregation
+    end subroutine multigrid_subdomain_create_CGPSA
 
     subroutine multigrid_allocate_subdomain_variables
 
@@ -1074,7 +1073,7 @@ module multigrid
         integer(kind=4)     :: l
 
         do l = 1, n_levels
-            call matrix_poisson_destroy(mg_a_poisson(l))
+            call matrix_heptadiagonal_destroy(mg_a_poisson(l))
             call geometry_subdomain_destroy(mg_sdm(l))
             call geometry_subdomain_ddt_destroy(mg_sdm(l))
         enddo
@@ -1188,6 +1187,9 @@ module multigrid
             k_offset_f = 1
         endif
 
+!$omp parallel do private(kp_f, kz_f, jp_f, jz_f, ip_f, iz_f, vol_f, vol_c) &
+!$omp firstprivate(k_stride_f,k_offset_f,j_stride_f,j_offset_f,i_stride_f,i_offset_f) &
+!$omp default(shared)
         do k = 1, nz_c
             kp_f = k * k_stride_f
             kz_f = kp_f - k_offset_f
@@ -1384,6 +1386,9 @@ module multigrid
             enddo
         endif
 
+!$omp parallel do private(kp_f, kz_f, km_c, kp_c, jp_f, jz_f, jm_c, jp_c, ip_f, iz_f, im_c, ip_c) &
+!$omp firstprivate(k_stride_f,k_offset_f,j_stride_f,j_offset_f,i_stride_f,i_offset_f) &
+!$omp default(shared)
         do k = 1, nz_c
 
             kp_f = k * k_stride_f
@@ -1391,7 +1396,7 @@ module multigrid
             km_c = k - k_offset_f
             kp_c = k + k_offset_f
 
-        do j = 1, ny_c
+            do j = 1, ny_c
             
                 jp_f = j * j_stride_f
                 jz_f = jp_f - j_offset_f
@@ -1506,22 +1511,22 @@ module multigrid
 
         implicit none
 
-        real(kind=8), intent(out)           :: rsd(0:,0:,0:)
-        type(matrix_poisson), intent(in)    :: a_poisson
-        real(kind=8), intent(inout)         :: x(0:,0:,0:)
-        real(kind=8), intent(in)            :: rhs(0:,0:,0:)
-        type(subdomain), intent(in)         :: dm
-        logical, intent(in)                 :: is_aggregated(0:2)
+        real(kind=8), intent(out)               :: rsd(0:,0:,0:)
+        type(matrix_heptadiagonal), intent(in)  :: a_poisson
+        real(kind=8), intent(inout)             :: x(0:,0:,0:)
+        real(kind=8), intent(in)                :: rhs(0:,0:,0:)
+        type(subdomain), intent(in)             :: dm
+        logical, intent(in)                     :: is_aggregated(0:2)
 
         integer(kind=4)                 :: i, j, k
 
         rsd(:,:,:) = 0.0d0
         call mv_mul_poisson_matrix(rsd, a_poisson, x, dm, is_aggregated)
-! #ifdef USE_MKL
-!         call daxpy(a_poisson%dof, -1.0d0, rhs, 1, res, 1)
-!         call dscal(a_poisson%dof, -1.0d0, res, 1)
-! #else
-    !$omp parallel do shared(rsd,rhs)
+#ifdef USE_MKL
+        call daxpy(a_poisson%dof, -1.0d0, rhs, 1, res, 1)
+        call dscal(a_poisson%dof, -1.0d0, res, 1)
+#else
+!$omp parallel do shared(rsd,rhs)
         do k = 1, dm%nz
             do j = 1, dm%ny
                 do i = 1, dm%nx
@@ -1529,7 +1534,7 @@ module multigrid
                 enddo
             enddo
         enddo
-! #endif
+#endif
 
     end subroutine multigrid_residual
 
@@ -1539,28 +1544,23 @@ module multigrid
 
         implicit none
 
-        real(kind=8), intent(inout)         :: x(0:,0:,0:)
-        type(matrix_poisson), intent(in)    :: a_poisson
-        real(kind=8), intent(in)            :: rhs(0:,0:,0:)
-        type(subdomain), intent(in)         :: dm
-        integer(kind=4), intent(in)         :: maxiteration
-        real(kind=8), intent(in)            :: tolerance
-        real(kind=8), intent(in)            :: omega
-        logical, intent(in)                 :: is_aggregated(0:2)
-        integer(kind=4)                     :: i, j, k
+        real(kind=8), intent(inout)             :: x(0:,0:,0:)
+        type(matrix_heptadiagonal), intent(in)  :: a_poisson
+        real(kind=8), intent(in)                :: rhs(0:,0:,0:)
+        type(subdomain), intent(in)             :: dm
+        integer(kind=4), intent(in)             :: maxiteration
+        real(kind=8), intent(in)                :: tolerance
+        real(kind=8), intent(in)                :: omega
+        logical, intent(in)                     :: is_aggregated(0:2)
+        integer(kind=4)                         :: i, j, k
 
         x = 0.0d0
 
-        if(myrank.eq.0) print '(a)', '[MG] Obtain the solution on a grid in the coarsest level'
         if((dm%nx*dm%ny*dm%nz.eq.1).and.(all(dm%is_aggregated).eq..true.)) then
-            do k = 1, dm%nz
-                do j = 1, dm%ny
-                    do i = 1, dm%nx
-                        x(i,j,k) = rhs(i,j,k) / a_poisson%coeff(0,i,j,k)
-                    enddo
-                enddo
-            enddo
+            if(myrank.eq.0) print '(a)', '[MG] Obtain the solution on a single grid in the coarsest level.'
+            x(1,1,1) = rhs(1,1,1) / a_poisson%coeff(0,1,1,1)
         else
+            if(myrank.eq.0) print '(a)', '[MG] Obtain the solution on a grid in the coarsest level with RGBS solver.'
             call rbgs_solver_poisson_matrix(x, &
                                             a_poisson, &
                                             rhs, &
@@ -1577,91 +1577,62 @@ module multigrid
 
         implicit none
 
-        real(kind=8), intent(inout)         :: sol(0:,0:,0:), rsd(0:,0:,0:)
-        type(matrix_poisson), intent(in)    :: a_poisson
-        real(kind=8), intent(in)            :: rhs(0:,0:,0:)
-        type(subdomain), intent(in)         :: sdm
-        integer(kind=4), intent(in)         :: maxiteration
-        real(kind=8), intent(in)            :: tolerance
-        real(kind=8), intent(in)            :: omega_sor
-
-        integer(kind=4)                     :: ierr
-
-        ! timer info.
-        ! 1 : multigrid V-cycle solver
-        call timer_start(1)
-        select case(aggregation_type)
-        case(0)
-            call multigrid_no_aggregation_vcycle_solver(sol, rsd, a_poisson, rhs, sdm, maxiteration, tolerance, omega_sor)
-        case(1)
-            call multigrid_single_aggregation_vcycle_solver(sol, rsd, a_poisson, rhs, sdm, maxiteration, tolerance, omega_sor)
-        case(2)
-            call multigrid_adaptive_aggregation_vcycle_solver(sol, rsd, a_poisson, rhs, sdm, maxiteration, tolerance, omega_sor)
-        case default
-            if(myrank.eq.0) print '(a,i2)', '[Error] Aggregation method should be 0, 1, or 2.', aggregation_type
-            call MPI_Finalize(ierr)
-            stop
-        end select
-        call timer_end(1)
-
-    end subroutine multigrid_solve_vcycle
-
-    subroutine multigrid_no_aggregation_vcycle_solver(sol, rsd, a_poisson, rhs, sdm, maxiteration, tolerance, omega_sor)
-
-        use mpi_topology, only  : myrank
-
-        implicit none
-
         real(kind=8), intent(inout)             :: sol(0:,0:,0:), rsd(0:,0:,0:)
-        type(matrix_poisson), intent(in)        :: a_poisson
+        type(matrix_heptadiagonal), intent(in)  :: a_poisson
         real(kind=8), intent(in)                :: rhs(0:,0:,0:)
         type(subdomain), intent(in)             :: sdm
         integer(kind=4), intent(in)             :: maxiteration
         real(kind=8), intent(in)                :: tolerance
         real(kind=8), intent(in)                :: omega_sor
 
-        real(kind=8)                            :: rsd_val, res0tol
+        integer(kind=4)                         :: ierr
+
+        select case(aggregation_type)
+        case(0)
+            call multigrid_CGS_vcycle_solver(sol, rsd, a_poisson, rhs, sdm, maxiteration, tolerance, omega_sor)
+        case(1)
+            call multigrid_CGA_vcycle_solver(sol, rsd, a_poisson, rhs, sdm, maxiteration, tolerance, omega_sor)
+        case(2)
+            call multigrid_CGPSA_vcycle_solver(sol, rsd, a_poisson, rhs, sdm, maxiteration, tolerance, omega_sor)
+        case default
+            if(myrank.eq.0) print '(a,i2)', '[Error] Aggregation method should be 0, 1, or 2.', aggregation_type
+            call MPI_Finalize(ierr)
+            stop
+        end select
+
+    end subroutine multigrid_solve_vcycle
+
+    subroutine multigrid_CGS_vcycle_solver(sol, rsd, a_poisson, rhs, sdm, maxiteration, tolerance, omega_sor)
+
+        use mpi_topology, only  : myrank
+
+        implicit none
+
+        real(kind=8), intent(inout)                 :: sol(0:,0:,0:), rsd(0:,0:,0:)
+        type(matrix_heptadiagonal), intent(in)      :: a_poisson
+        real(kind=8), intent(in)                    :: rhs(0:,0:,0:)
+        type(subdomain), intent(in)                 :: sdm
+        integer(kind=4), intent(in)                 :: maxiteration
+        real(kind=8), intent(in)                    :: tolerance
+        real(kind=8), intent(in)                    :: omega_sor
+
+        real(kind=8)                                :: rsd_val, res0tol
         integer(kind=4)     :: l, cyc
 
-        call timer_stamp0
-
-        ! timer info.
-        ! 2 : iterator in finest level
-        ! 3 : residual in finest level
-        ! 4 : redisual reduction in finest level
-        ! 5 : restriction in finest level
-        ! 6 : prolongation in finest level
-        ! 7 : iterator
-        ! 8 : residual
-        ! 9 : restriction
-        ! 10 : prolongation
-        ! 11 : solve in coarsest level
-        ! 21 : Update ghost cell
-        ! 29 : LV0 residual memory alloc
-        ! 30 : others
-
         call multigrid_residual(rsd, a_poisson, sol, rhs, sdm, sdm%is_aggregated)
-        call timer_stamp(3)
         call vv_dot_3d_matrix(res0tol, rsd, rsd, sdm%nx, sdm%ny, sdm%nz, sdm%is_aggregated)
-        call timer_stamp(4)
 
         do cyc = 1, n_vcycles
 
             call rbgs_iterator_poisson_matrix(sol, a_poisson, rhs, sdm, maxiteration, omega_sor, sdm%is_aggregated)
-            call timer_stamp(2)
             call multigrid_residual(rsd, a_poisson, sol, rhs, sdm, sdm%is_aggregated)
-            call timer_stamp(3)
             call multigrid_restriction(mg_sdm(1)%b, rsd, mg_sdm(1), sdm, 0)
-            call timer_stamp(5)
 
             do l = 1, n_levels-1
                 mg_sdm(l)%x = 0.0d0
                 call rbgs_iterator_poisson_matrix(mg_sdm(l)%x, mg_a_poisson(l), mg_sdm(l)%b, mg_sdm(l), maxiteration, omega_sor, mg_sdm(l)%is_aggregated)
-                call timer_stamp(7)
                 call multigrid_residual(mg_sdm(l)%r, mg_a_poisson(l), mg_sdm(l)%x, mg_sdm(l)%b, mg_sdm(l), mg_sdm(l)%is_aggregated)
-                call timer_stamp(8)
                 call multigrid_restriction(mg_sdm(l+1)%b, mg_sdm(l)%r, mg_sdm(l+1), mg_sdm(l),l)
-                call timer_stamp(9)
             enddo
 
             call multigrid_solve_coarset_level( mg_sdm(n_levels)%x, &
@@ -1670,64 +1641,51 @@ module multigrid
                                                     mg_sdm(n_levels), &
                                                     1000, tolerance, omega_sor, &
                                                     mg_sdm(n_levels)%is_aggregated)
-            call timer_stamp(11)
             call multigrid_residual(mg_sdm(n_levels)%r, mg_a_poisson(n_levels), mg_sdm(n_levels)%x, mg_sdm(n_levels)%b, mg_sdm(n_levels), mg_sdm(n_levels)%is_aggregated)
-            call timer_stamp(8)
             if(myrank.eq.0) print '(a,e18.10,a,e18.10)','[MG] Solution in the coarset level : x(1,1,1) = ',mg_sdm(n_levels)%x(1,1,1),', residue = ',mg_sdm(n_levels)%r(1,1,1)
 #ifdef DEBUG_COARSEST
             call multigrid_common_print_coarsest_level_solution(cyc, mg_sdm(n_levels))
 #endif
-            call timer_stamp(30)
 ! Update the ghostcells in x-direction using derived datatypes and subcommunicator
             do l = n_levels-1, 1, -1
                 call multigrid_prolongation_linear_on_nonuniform_grid(mg_sdm(l)%r, mg_sdm(l+1)%x, mg_sdm(l), mg_sdm(l+1),l)
                 mg_sdm(l)%x = mg_sdm(l)%x + mg_sdm(l)%r
-                call timer_stamp(10)
                 call rbgs_iterator_poisson_matrix(mg_sdm(l)%x, mg_a_poisson(l), mg_sdm(l)%b, mg_sdm(l), maxiteration, omega_sor, mg_sdm(l)%is_aggregated)
-                call timer_stamp(7)
                 call geometry_halocell_update_selectively(mg_sdm(l)%x, mg_sdm(l), mg_sdm(1)%is_aggregated)
-                call timer_stamp(24)
             enddo
 
             ! prolongation
             call multigrid_prolongation_linear_on_nonuniform_grid(rsd, mg_sdm(1)%x, sdm, mg_sdm(1), 0)
             sol = sol + rsd
-            call timer_stamp(6)
             call rbgs_iterator_poisson_matrix(sol, a_poisson, rhs, sdm, maxiteration, omega_sor, mg_sdm(l)%is_aggregated)
-            call timer_stamp(2)
 
             call multigrid_residual(rsd, a_poisson, sol, rhs, sdm, sdm%is_aggregated)
-            call timer_stamp(3)
             call vv_dot_3d_matrix(rsd_val, rsd, rsd, sdm%nx, sdm%ny, sdm%nz, sdm%is_aggregated)
-            call timer_stamp(4)
             if(myrank.eq.0) print '(a,i4,a,3(e15.7,x))', '[MG] cycle = ',cyc,', Error:',sqrt(rsd_val), sqrt(res0tol), sqrt(rsd_val/res0tol)
             if (sqrt(rsd_val/res0tol) .LT. tolerance) exit 
-            call timer_stamp(30)
         enddo
         ! if(myrank.eq.0) print '(a,i4,a)','[MG] ========================== Total ',ncycle,' V-cycles end =========================='
 
-        call timer_stamp(30)
+    end subroutine multigrid_CGS_vcycle_solver
 
-    end subroutine multigrid_no_aggregation_vcycle_solver
-
-    subroutine multigrid_single_aggregation_vcycle_solver(sol, rsd, a_poisson, rhs, sdm, maxiteration, tolerance, omega_sor)
+    subroutine multigrid_CGA_vcycle_solver(sol, rsd, a_poisson, rhs, sdm, maxiteration, tolerance, omega_sor)
 
         use mpi
         use mpi_topology, only  : myrank, nprocs, mpi_world_cart, comm_1d_x, comm_1d_y, comm_1d_z
 
         implicit none
 
-        real(kind=8), intent(inout)             :: sol(0:,0:,0:), rsd(0:,0:,0:)
-        type(matrix_poisson), intent(in)        :: a_poisson
-        real(kind=8), intent(in)                :: rhs(0:,0:,0:)
-        type(subdomain), intent(in)             :: sdm
-        integer(kind=4), intent(in)             :: maxiteration
-        real(kind=8), intent(in)                :: tolerance
-        real(kind=8), intent(in)                :: omega_sor
+        real(kind=8), intent(inout)                 :: sol(0:,0:,0:), rsd(0:,0:,0:)
+        type(matrix_heptadiagonal), intent(in)      :: a_poisson
+        real(kind=8), intent(in)                    :: rhs(0:,0:,0:)
+        type(subdomain), intent(in)                 :: sdm
+        integer(kind=4), intent(in)                 :: maxiteration
+        real(kind=8), intent(in)                    :: tolerance
+        real(kind=8), intent(in)                    :: omega_sor
 
-        real(kind=8)                            :: rsd_val, res0tol
-        integer(kind=4)                         :: l, i, cyc
-        integer(kind=4)                         :: ierr
+        real(kind=8)                                :: rsd_val, res0tol
+        integer(kind=4)                             :: l, i, cyc
+        integer(kind=4)                             :: ierr
 
         ! MPI_Gatherv/MPI_Scatterv instead of MPI_reduce
         integer(kind=4)                             :: ddtype_temp1
@@ -1743,24 +1701,6 @@ module multigrid
 #ifndef MPI_INPLACE
         real(kind=8), allocatable               :: tmp(:,:,:)
 #endif
-
-        call timer_stamp0
-
-        ! timer info.
-        ! 2 : iterator in finest level
-        ! 3 : residual in finest level
-        ! 4 : redisual reduction in finest level
-        ! 5 : restriction in finest level
-        ! 6 : prolongation in finest level
-        ! 7 : iterator
-        ! 8 : residual
-        ! 9 : restriction
-        ! 10 : prolongation
-        ! 11 : solve in coarsest level
-        ! 21 : Update ghost cell
-        ! 22 : MPI_Gather
-        ! 23 : MPI_Scatter
-        ! 30 : others
 
         !============= for communication  ============
         allocate( cart_coord(0:2,0:nprocs-1) )
@@ -1811,32 +1751,23 @@ module multigrid
                     + ny * cart_coord(1,i) * (nx_aggr + 2)  &
                     + nz * cart_coord(2,i) * (nx_aggr + 2) * (ny_aggr + 2)
         enddo
-        call timer_stamp(28)
 
         !============= for communication  ============
 
         call multigrid_residual(rsd, a_poisson, sol, rhs, sdm, sdm%is_aggregated)
-        call timer_stamp(3)
         call vv_dot_3d_matrix(res0tol, rsd, rsd, sdm%nx, sdm%ny, sdm%nz, sdm%is_aggregated)
-        call timer_stamp(4)
 
         do cyc = 1, n_vcycles
 
             call rbgs_iterator_poisson_matrix(sol, a_poisson, rhs, sdm, maxiteration, omega_sor, sdm%is_aggregated)
-            call timer_stamp(2)
             call multigrid_residual(rsd, a_poisson, sol, rhs, sdm, sdm%is_aggregated)
-            call timer_stamp(3)
             call multigrid_restriction(mg_sdm(1)%b, rsd, mg_sdm(1), sdm, 0)
-            call timer_stamp(5)
 
             do l = 1, lv_aggregation-1
                 mg_sdm(l)%x = 0.0d0
                 call rbgs_iterator_poisson_matrix(mg_sdm(l)%x, mg_a_poisson(l), mg_sdm(l)%b, mg_sdm(l), maxiteration, omega_sor, mg_sdm(l)%is_aggregated)
-                call timer_stamp(7)
                 call multigrid_residual(mg_sdm(l)%r, mg_a_poisson(l), mg_sdm(l)%x, mg_sdm(l)%b, mg_sdm(l), mg_sdm(l)%is_aggregated)
-                call timer_stamp(8)
                 call multigrid_restriction(mg_sdm(l+1)%b, mg_sdm(l)%r, mg_sdm(l+1), mg_sdm(l),l)
-                call timer_stamp(9)
             enddo
 
 #ifdef MPI_INPLACE
@@ -1850,17 +1781,13 @@ module multigrid
             call MPI_Gatherv(mg_sdm(lv_aggregation)%b, 1, ddtype_gatherv, tmp, cnts, disps, ddtype_gatherv, 0, MPI_COMM_WORLD, ierr)
             mg_sdm(lv_aggregation)%b = tmp
 #endif
-            call timer_stamp(26)
 
             if(myrank.eq.0) then
                 do l = lv_aggregation, n_levels-1
                     mg_sdm(l)%x = 0.0d0
                     call rbgs_iterator_poisson_matrix(mg_sdm(l)%x, mg_a_poisson(l), mg_sdm(l)%b, mg_sdm(l), maxiteration, omega_sor, mg_sdm(l)%is_aggregated)
-                    call timer_stamp(12)
                     call multigrid_residual(mg_sdm(l)%r, mg_a_poisson(l), mg_sdm(l)%x, mg_sdm(l)%b, mg_sdm(l), mg_sdm(l)%is_aggregated)
-                    call timer_stamp(13)
                     call multigrid_restriction(mg_sdm(l+1)%b, mg_sdm(l)%r, mg_sdm(l+1), mg_sdm(l),l)
-                    call timer_stamp(14)
                 enddo
 
                 call multigrid_solve_coarset_level( mg_sdm(n_levels)%x, &
@@ -1869,10 +1796,8 @@ module multigrid
                                                         mg_sdm(n_levels), &
                                                         1000, tolerance, omega_sor, &
                                                         mg_sdm(n_levels)%is_aggregated)
-                call timer_stamp(11)
 
                 call multigrid_residual(mg_sdm(n_levels)%r, mg_a_poisson(n_levels), mg_sdm(n_levels)%x, mg_sdm(n_levels)%b, mg_sdm(n_levels), mg_sdm(n_levels)%is_aggregated)
-                call timer_stamp(13)
                 print '(a,e18.10,a,e18.10)','[MG] Solution in the coarset level : x(1,1,1) = ',mg_sdm(n_levels)%x(1,1,1),', residue = ',mg_sdm(n_levels)%r(1,1,1)
 #ifdef DEBUG_COARSEST
                 call multigrid_common_print_coarsest_level_solution(cyc, mg_sdm(n_levels))
@@ -1881,9 +1806,7 @@ module multigrid
                 do l = n_levels-1, lv_aggregation, -1
                     call multigrid_prolongation_linear_on_nonuniform_grid(mg_sdm(l)%r, mg_sdm(l+1)%x, mg_sdm(l), mg_sdm(l+1),l)
                     mg_sdm(l)%x = mg_sdm(l)%x + mg_sdm(l)%r
-                    call timer_stamp(15)
                     call rbgs_iterator_poisson_matrix(mg_sdm(l)%x, mg_a_poisson(l), mg_sdm(l)%b, mg_sdm(l), maxiteration, omega_sor, mg_sdm(l)%is_aggregated)
-                    call timer_stamp(12)
                 enddo
             endif
 
@@ -1898,64 +1821,54 @@ module multigrid
             mg_sdm(lv_aggregation)%x = tmp
             deallocate(tmp)
 #endif
-            call timer_stamp(27)
 
             do l = lv_aggregation-1, 1, -1
                 call multigrid_prolongation_linear_on_nonuniform_grid(mg_sdm(l)%r, mg_sdm(l+1)%x, mg_sdm(l), mg_sdm(l+1),l)
                 mg_sdm(l)%x = mg_sdm(l)%x + mg_sdm(l)%r
-                call timer_stamp(10)
                 call rbgs_iterator_poisson_matrix(mg_sdm(l)%x, mg_a_poisson(l), mg_sdm(l)%b, mg_sdm(l), maxiteration, omega_sor, mg_sdm(l)%is_aggregated)
-                call timer_stamp(7)
                 call geometry_halocell_update_selectively(mg_sdm(l)%x, mg_sdm(l), mg_sdm(l)%is_aggregated)
-                call timer_stamp(24)
             enddo
 
             ! prolongation
             call multigrid_prolongation_linear_on_nonuniform_grid(rsd, mg_sdm(1)%x, sdm, mg_sdm(1), 0)
             sol = sol + rsd
-            call timer_stamp(6)
             call rbgs_iterator_poisson_matrix(sol, a_poisson, rhs, sdm, maxiteration, omega_sor, mg_sdm(l)%is_aggregated)
-            call timer_stamp(2)
 
             call multigrid_residual(rsd, a_poisson, sol, rhs, sdm, sdm%is_aggregated)
-            call timer_stamp(3)
             call vv_dot_3d_matrix(rsd_val, rsd, rsd, sdm%nx, sdm%ny, sdm%nz, sdm%is_aggregated)
-            call timer_stamp(4)
             if(myrank.eq.0) print '(a,i4,a,3(e15.7,x))', '[MG] cycle = ',cyc,', Error:',sqrt(rsd_val), sqrt(res0tol), sqrt(rsd_val/res0tol)
             if (sqrt(rsd_val/res0tol) .LT. tolerance) exit 
-            call timer_stamp(30)
         enddo
         ! if(myrank.eq.0) print '(a,i4,a)','[MG] ========================== Total ',ncycle,' V-cycles end =========================='
 
         deallocate( cnts )
         deallocate( disps )
         deallocate( cart_coord )
-        call timer_stamp(30)
 
-    end subroutine multigrid_single_aggregation_vcycle_solver
+    end subroutine multigrid_CGA_vcycle_solver
 
-    subroutine multigrid_adaptive_aggregation_vcycle_solver(sol, rsd, a_poisson, rhs, sdm, maxiteration, tolerance, omega_sor)
+    subroutine multigrid_CGPSA_vcycle_solver(sol, rsd, a_poisson, rhs, sdm, maxiteration, tolerance, omega_sor)
 
         use mpi
         use mpi_topology, only  : myrank, cart_comm_1d, comm_1d_x, comm_1d_y, comm_1d_z
 
         implicit none
 
-        real(kind=8), intent(inout)             :: sol(0:,0:,0:), rsd(0:,0:,0:)
-        type(matrix_poisson), intent(in)        :: a_poisson
-        real(kind=8), intent(in)                :: rhs(0:,0:,0:)
-        type(subdomain), intent(in)             :: sdm
-        integer(kind=4), intent(in)             :: maxiteration
-        real(kind=8), intent(in)                :: tolerance
-        real(kind=8), intent(in)                :: omega_sor
+        real(kind=8), intent(inout)                 :: sol(0:,0:,0:), rsd(0:,0:,0:)
+        type(matrix_heptadiagonal), intent(in)      :: a_poisson
+        real(kind=8), intent(in)                    :: rhs(0:,0:,0:)
+        type(subdomain), intent(in)                 :: sdm
+        integer(kind=4), intent(in)                 :: maxiteration
+        real(kind=8), intent(in)                    :: tolerance
+        real(kind=8), intent(in)                    :: omega_sor
 
-        real(kind=8)                            :: rsd_val, res0tol
-        real(kind=8), allocatable               :: tmp(:,:,:)
-        integer(kind=4)                         :: i, l, cyc
-        integer(kind=4)                         :: ierr
-        integer(kind=4), pointer                :: lv_aggr_max_ptr, lv_aggr_med_ptr, lv_aggr_min_ptr
-        type(cart_comm_1d), pointer             :: comm_max_ptr, comm_med_ptr, comm_min_ptr
-        character(len=1)                        :: max, med, min
+        real(kind=8)                                :: rsd_val, res0tol
+        real(kind=8), allocatable                   :: tmp(:,:,:)
+        integer(kind=4)                             :: i, l, cyc
+        integer(kind=4)                             :: ierr
+        integer(kind=4), pointer                    :: lv_aggr_max_ptr, lv_aggr_med_ptr, lv_aggr_min_ptr
+        type(cart_comm_1d), pointer                 :: comm_max_ptr, comm_med_ptr, comm_min_ptr
+        character(len=1)                            :: max, med, min
 
 
         ! MPI_Gatherv/MPI_Scatterv instead of MPI_reduce
@@ -1983,24 +1896,6 @@ module multigrid
         integer(kind=4), dimension(:), pointer              :: cnt_max_ptr, disps_max_ptr
         integer(kind=4), dimension(:), pointer              :: cnt_med_ptr, disps_med_ptr
         integer(kind=4), dimension(:), pointer              :: cnt_min_ptr, disps_min_ptr
-
-        call timer_stamp0
-
-        ! timer info.
-        ! 2 : iterator in finest level
-        ! 3 : residual in finest level
-        ! 4 : redisual reduction in finest level
-        ! 5 : restriction in finest level
-        ! 6 : prolongation in finest level
-        ! 7 : iterator
-        ! 8 : residual
-        ! 9 : restriction
-        ! 10 : prolongation
-        ! 11 : solve in coarsest level
-        ! 21 : Update ghost cell
-        ! 22 : MPI_Gather
-        ! 23 : MPI_Scatter
-        ! 30 : others
 
         !============= for communication  ============
         if(lv_aggregation_x .gt. 0) then
@@ -2311,31 +2206,20 @@ module multigrid
             endif
         endif
 
-        if(myrank.eq.0) print *, lv_aggr_max_ptr, lv_aggr_med_ptr, lv_aggr_min_ptr, max, med, min
-        call timer_stamp(28)
-
         call multigrid_residual(rsd, a_poisson, sol, rhs, sdm, sdm%is_aggregated)
-        call timer_stamp(3)
         call vv_dot_3d_matrix(res0tol, rsd, rsd, sdm%nx, sdm%ny, sdm%nz, sdm%is_aggregated)
-        call timer_stamp(4)
 
         do cyc = 1, n_vcycles
 
             call rbgs_iterator_poisson_matrix(sol, a_poisson, rhs, sdm, maxiteration, omega_sor, sdm%is_aggregated)
-            call timer_stamp(2)
             call multigrid_residual(rsd, a_poisson, sol, rhs, sdm, sdm%is_aggregated)
-            call timer_stamp(3)
             call multigrid_restriction(mg_sdm(1)%b, rsd, mg_sdm(1), sdm, 0)
-            call timer_stamp(5)
 
             do l = 1, max0(1, lv_aggr_min_ptr)-1
                 mg_sdm(l)%x = 0.0d0
                 call rbgs_iterator_poisson_matrix(mg_sdm(l)%x, mg_a_poisson(l), mg_sdm(l)%b, mg_sdm(l), maxiteration, omega_sor, mg_sdm(l)%is_aggregated)
-                call timer_stamp(7)
                 call multigrid_residual(mg_sdm(l)%r, mg_a_poisson(l), mg_sdm(l)%x, mg_sdm(l)%b, mg_sdm(l), mg_sdm(l)%is_aggregated)
-                call timer_stamp(8)
                 call multigrid_restriction(mg_sdm(l+1)%b, mg_sdm(l)%r, mg_sdm(l+1), mg_sdm(l),l)
-                call timer_stamp(9)
             enddo
 
             if(lv_aggr_min_ptr.gt.0) then
@@ -2344,7 +2228,6 @@ module multigrid
                 call MPI_Gatherv(mg_sdm(lv_aggr_min_ptr)%b(0,0,0), 1, ddtype_gatherv_min_ptr, tmp(0,0,0), cnt_min_ptr, disps_min_ptr, ddtype_gatherv_min_ptr, 0, comm_min_ptr%mpi_comm, ierr)
                 mg_sdm(lv_aggr_min_ptr)%b = tmp
                 deallocate(tmp)
-                call timer_stamp(26)
             endif
 
             if(comm_min_ptr%myrank.eq.0) then
@@ -2352,11 +2235,8 @@ module multigrid
                 do l = max0(1, lv_aggr_min_ptr), lv_aggr_med_ptr-1
                     mg_sdm(l)%x = 0.0d0
                     call rbgs_iterator_poisson_matrix(mg_sdm(l)%x, mg_a_poisson(l), mg_sdm(l)%b, mg_sdm(l), maxiteration, omega_sor, mg_sdm(l)%is_aggregated)
-                    call timer_stamp(12)
                     call multigrid_residual(mg_sdm(l)%r, mg_a_poisson(l), mg_sdm(l)%x, mg_sdm(l)%b, mg_sdm(l), mg_sdm(l)%is_aggregated)
-                    call timer_stamp(13)
                     call multigrid_restriction(mg_sdm(l+1)%b, mg_sdm(l)%r, mg_sdm(l+1), mg_sdm(l),l)
-                    call timer_stamp(14)
                 enddo
     
                 if(lv_aggr_med_ptr.gt.0) then
@@ -2365,7 +2245,6 @@ module multigrid
                     call MPI_Gatherv(mg_sdm(lv_aggr_med_ptr)%b(0,0,0), 1, ddtype_gatherv_med_ptr, tmp(0,0,0), cnt_med_ptr, disps_med_ptr, ddtype_gatherv_med_ptr, 0, comm_med_ptr%mpi_comm, ierr)
                     mg_sdm(lv_aggr_med_ptr)%b = tmp
                     deallocate(tmp)
-                    call timer_stamp(26)
                 endif
 
                 if(comm_med_ptr%myrank.eq.0) then
@@ -2373,11 +2252,8 @@ module multigrid
                     do l = max0(1, lv_aggr_med_ptr), lv_aggr_max_ptr-1
                         mg_sdm(l)%x = 0.0d0
                         call rbgs_iterator_poisson_matrix(mg_sdm(l)%x, mg_a_poisson(l), mg_sdm(l)%b, mg_sdm(l), maxiteration, omega_sor, mg_sdm(l)%is_aggregated)
-                        call timer_stamp(16)
                         call multigrid_residual(mg_sdm(l)%r, mg_a_poisson(l), mg_sdm(l)%x, mg_sdm(l)%b, mg_sdm(l), mg_sdm(l)%is_aggregated)
-                        call timer_stamp(17)
                         call multigrid_restriction(mg_sdm(l+1)%b, mg_sdm(l)%r, mg_sdm(l+1), mg_sdm(l),l)
-                        call timer_stamp(18)
                     enddo
         
                     if(lv_aggr_max_ptr.gt.0) then
@@ -2386,18 +2262,14 @@ module multigrid
                         call MPI_Gatherv(mg_sdm(lv_aggr_max_ptr)%b(0,0,0), 1, ddtype_gatherv_max_ptr, tmp(0,0,0), cnt_max_ptr, disps_max_ptr, ddtype_gatherv_max_ptr, 0, comm_max_ptr%mpi_comm, ierr)
                         mg_sdm(lv_aggr_max_ptr)%b = tmp
                         deallocate(tmp)
-                        call timer_stamp(26)
                     endif
         
                     if(comm_max_ptr%myrank.eq.0) then
                         do l = max0(1, lv_aggr_max_ptr), n_levels-1
                             mg_sdm(l)%x = 0.0d0
                             call rbgs_iterator_poisson_matrix(mg_sdm(l)%x, mg_a_poisson(l), mg_sdm(l)%b, mg_sdm(l), maxiteration, omega_sor, mg_sdm(l)%is_aggregated)
-                            call timer_stamp(20)
                             call multigrid_residual(mg_sdm(l)%r, mg_a_poisson(l), mg_sdm(l)%x, mg_sdm(l)%b, mg_sdm(l), mg_sdm(l)%is_aggregated)
-                            call timer_stamp(21)
                             call multigrid_restriction(mg_sdm(l+1)%b, mg_sdm(l)%r, mg_sdm(l+1), mg_sdm(l),l)
-                            call timer_stamp(22)
                         enddo
 
                         call multigrid_solve_coarset_level( mg_sdm(n_levels)%x, &
@@ -2406,10 +2278,8 @@ module multigrid
                                                                 mg_sdm(n_levels), &
                                                                 1000, tolerance, omega_sor, &
                                                                 mg_sdm(n_levels)%is_aggregated)
-                        call timer_stamp(11)
 
                         call multigrid_residual(mg_sdm(n_levels)%r, mg_a_poisson(n_levels), mg_sdm(n_levels)%x, mg_sdm(n_levels)%b, mg_sdm(n_levels), mg_sdm(n_levels)%is_aggregated)
-                        call timer_stamp(21)
                         print '(a,e18.10,a,e18.10)','[MG] Solution in the coarset level : x(1,1,1) = ',mg_sdm(n_levels)%x(1,1,1),', residue = ',mg_sdm(n_levels)%r(1,1,1)
 #ifdef DEBUG_COARSEST
                         call multigrid_common_print_coarsest_level_solution(cyc, mg_sdm(n_levels))
@@ -2418,9 +2288,7 @@ module multigrid
                         do l = n_levels-1, max0(1, lv_aggr_max_ptr), -1
                             call multigrid_prolongation_linear_on_nonuniform_grid(mg_sdm(l)%r, mg_sdm(l+1)%x, mg_sdm(l), mg_sdm(l+1),l)
                             mg_sdm(l)%x = mg_sdm(l)%x + mg_sdm(l)%r
-                            call timer_stamp(23)
                             call rbgs_iterator_poisson_matrix(mg_sdm(l)%x, mg_a_poisson(l), mg_sdm(l)%b, mg_sdm(l), maxiteration, omega_sor, mg_sdm(l)%is_aggregated)
-                            call timer_stamp(20)
                         enddo
                     endif
 
@@ -2430,16 +2298,12 @@ module multigrid
                         call MPI_Scatterv(mg_sdm(lv_aggr_max_ptr)%x(0,0,0), cnt_max_ptr, disps_max_ptr, ddtype_scatterv_max_ptr, tmp, 1, ddtype_scatterv_max_ptr, 0, comm_max_ptr%mpi_comm, ierr)
                         mg_sdm(lv_aggr_max_ptr)%x = tmp
                         deallocate(tmp)
-                        call timer_stamp(27)
                     endif
                     do l = lv_aggr_max_ptr-1, max0(1, lv_aggr_med_ptr), -1
                         call multigrid_prolongation_linear_on_nonuniform_grid(mg_sdm(l)%r, mg_sdm(l+1)%x, mg_sdm(l), mg_sdm(l+1),l)
                         mg_sdm(l)%x = mg_sdm(l)%x + mg_sdm(l)%r
-                        call timer_stamp(19)
                         call rbgs_iterator_poisson_matrix(mg_sdm(l)%x, mg_a_poisson(l), mg_sdm(l)%b, mg_sdm(l), maxiteration, omega_sor, mg_sdm(l)%is_aggregated)
-                        call timer_stamp(16)
                         call geometry_halocell_update_selectively(mg_sdm(l)%x, mg_sdm(l), mg_sdm(l)%is_aggregated)
-                        call timer_stamp(24)
                     enddo
                 endif
 
@@ -2449,16 +2313,12 @@ module multigrid
                     call MPI_Scatterv(mg_sdm(lv_aggr_med_ptr)%x(0,0,0), cnt_med_ptr, disps_med_ptr, ddtype_scatterv_med_ptr, tmp, 1, ddtype_scatterv_med_ptr, 0, comm_med_ptr%mpi_comm, ierr)
                     mg_sdm(lv_aggr_med_ptr)%x = tmp
                     deallocate(tmp)
-                call timer_stamp(27)
                 endif
                 do l = lv_aggr_med_ptr-1, max0(1, lv_aggr_min_ptr), -1
                     call multigrid_prolongation_linear_on_nonuniform_grid(mg_sdm(l)%r, mg_sdm(l+1)%x, mg_sdm(l), mg_sdm(l+1),l)
                     mg_sdm(l)%x = mg_sdm(l)%x + mg_sdm(l)%r
-                    call timer_stamp(15)
                     call rbgs_iterator_poisson_matrix(mg_sdm(l)%x, mg_a_poisson(l), mg_sdm(l)%b, mg_sdm(l), maxiteration, omega_sor, mg_sdm(l)%is_aggregated)
-                    call timer_stamp(12)
                     call geometry_halocell_update_selectively(mg_sdm(l)%x, mg_sdm(l), mg_sdm(l)%is_aggregated)
-                    call timer_stamp(24)
                 enddo
             endif
 
@@ -2468,34 +2328,24 @@ module multigrid
                 call MPI_Scatterv(mg_sdm(lv_aggr_min_ptr)%x(0,0,0), cnt_min_ptr, disps_min_ptr, ddtype_scatterv_min_ptr, tmp, 1, ddtype_scatterv_min_ptr, 0, comm_min_ptr%mpi_comm, ierr)
                 mg_sdm(lv_aggr_min_ptr)%x = tmp
                 deallocate(tmp)
-                call timer_stamp(27)
             endif
 
             do l = lv_aggr_min_ptr-1, 1, -1
                 call multigrid_prolongation_linear_on_nonuniform_grid(mg_sdm(l)%r, mg_sdm(l+1)%x, mg_sdm(l), mg_sdm(l+1),l)
                 mg_sdm(l)%x = mg_sdm(l)%x + mg_sdm(l)%r
-                call timer_stamp(10)
                 call rbgs_iterator_poisson_matrix(mg_sdm(l)%x, mg_a_poisson(l), mg_sdm(l)%b, mg_sdm(l), maxiteration, omega_sor, mg_sdm(l)%is_aggregated)
-                call timer_stamp(7)
                 call geometry_halocell_update_selectively(mg_sdm(l)%x, mg_sdm(l), mg_sdm(l)%is_aggregated)
-                call timer_stamp(24)
             enddo
 
             ! prolongation
             call multigrid_prolongation_linear_on_nonuniform_grid(rsd, mg_sdm(1)%x, sdm, mg_sdm(1), 0)
             sol = sol + rsd
-            call timer_stamp(6)
 
             call rbgs_iterator_poisson_matrix(sol, a_poisson, rhs, sdm, maxiteration, omega_sor, sdm%is_aggregated)
-            call timer_stamp(2)
-
             call multigrid_residual(rsd, a_poisson, sol, rhs, sdm, sdm%is_aggregated)
-            call timer_stamp(3)
             call vv_dot_3d_matrix(rsd_val, rsd, rsd, sdm%nx, sdm%ny, sdm%nz, sdm%is_aggregated)
-            call timer_stamp(4)
             if(myrank.eq.0) print '(a,i4,a,3(e15.7,x))', '[MG] cycle = ',cyc,', Error:',sqrt(rsd_val), sqrt(res0tol), sqrt(rsd_val/res0tol)
             if (sqrt(rsd_val/res0tol) .LT. tolerance) exit
-            call timer_stamp(30)
         enddo
 
         if(lv_aggregation_x .gt. 0) then
@@ -2510,8 +2360,7 @@ module multigrid
             deallocate(cnt_z  )
             deallocate(disps_z)
         endif
-        call timer_stamp(30)
 
-    end subroutine multigrid_adaptive_aggregation_vcycle_solver
+    end subroutine multigrid_CGPSA_vcycle_solver
 
 end module multigrid

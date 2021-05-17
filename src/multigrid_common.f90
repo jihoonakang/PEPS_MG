@@ -56,14 +56,14 @@ module multigrid_common
     subroutine multigrid_common_print_poisson_matrix_info(mg_sdm, mg_a_poisson, lv)
 
         use geometry, only      : subdomain
-        use matrix, only        : matrix_poisson
+        use matrix, only        : matrix_heptadiagonal
         use mpi_topology, only  : myrank
 
         implicit none
 
-        type(subdomain), intent(in)         :: mg_sdm
-        type(matrix_poisson), intent(in)    :: mg_a_poisson
-        integer(kind=4), intent(in)         :: lv
+        type(subdomain), intent(in)             :: mg_sdm
+        type(matrix_heptadiagonal), intent(in)  :: mg_a_poisson
+        integer(kind=4), intent(in)             :: lv
 
         integer(kind=4)                     :: i, j, k
         character(256)                      :: myfilename
@@ -188,10 +188,7 @@ module multigrid_common
             do i = 1, nx_f
                     iz_c = int(i/i_stride_f) + i_gl_c
                     ip_c = iz_c + i_offset_f
-                    ! i = 1, iz_c = 0,1
-                    ! i = 2, iz_c = 1,2
-                    ! i = 3, iz_c = 1,2
-                    ! i = 4, iz_c = 2,3
+
                     write(myrank,'(9(e15.7,x))') val_f(i,j,k), &
                                                 val_c(iz_c,jz_c,kz_c), &
                                                 val_c(ip_c,jz_c,kz_c), &
