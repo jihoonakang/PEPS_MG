@@ -151,7 +151,6 @@ module multigrid_debug
         real(kind=8), intent(in)        :: val_f(0:,0:,0:)
         real(kind=8), intent(in)        :: vol_f(2,2,2), vol_c
         integer(kind=4), intent(in)     :: level
-        integer(kind=4), intent(in)     :: i_gl_c, j_gl_c, k_gl_c
         integer(kind=4), intent(in)     :: i_stride_f, i_offset_f
         integer(kind=4), intent(in)     :: j_stride_f, j_offset_f
         integer(kind=4), intent(in)     :: k_stride_f, k_offset_f

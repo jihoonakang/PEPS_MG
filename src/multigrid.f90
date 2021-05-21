@@ -175,6 +175,15 @@ module multigrid
 
         integer(kind=4)             :: l, ierr
         integer(kind=4)             :: nx, ny, nz
+        !> @{ Pointer for mesh size in current MG level
+        real(kind=8), pointer       :: dxm_f(:), dym_f(:), dzm_f(:)
+        !> @}
+        !> @{ Pointer for grid spacing in current MG level
+        real(kind=8), pointer       :: dxg_f(:), dyg_f(:), dzg_f(:)
+        !> @}
+        !> @{ Pointer for grid coordinates in current MG level
+        real(kind=8), pointer       :: xg_f(:),  yg_f(:),  zg_f(:)
+        !> @}
 
         if(myrank.eq.0) print '(a)', '[MG] Grid coarsening without aggregation.'
 

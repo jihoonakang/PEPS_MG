@@ -170,7 +170,9 @@ module rbgs_poisson_matrix
            
         enddo
 
-        if(myrank.eq.0) print '(a,i5,a,e15.7,a,e15.7,a,e15.7)','   [RBGS solver] Solution obtained. Iter. = ',iter,', mse = ',sqrt(rsd_norm),', r_mse = ',sqrt(rsd_norm/rsd0tol), ', time = ', MPI_Wtime()-t0
+        if(myrank.eq.0) then
+            print '(a,i5,a,e15.7,a,e15.7)','   [RBGS solver] Solution obtained. Iter. = ',iter,', mse = ',sqrt(rsd_norm),', r_mse = ',sqrt(rsd_norm/rsd0tol)
+        endif
 
         deallocate(rsd)
 

@@ -30,11 +30,11 @@ module mpi_topology
 
     !> @brief   Type variable for the information of 1D communicator
     type, public :: cart_comm_1d
-        integer(kind=4), :: myrank              !< Rank ID in current communicator
-        integer(kind=4), :: nprocs              !< Number of processes in current communicator
-        integer(kind=4), :: west_rank           !< Previous rank ID in current communicator
-        integer(kind=4), :: east_rank           !< Next rank ID in current communicator
-        integer(kind=4), :: mpi_comm            !< Current communicator
+        integer(kind=4) :: myrank              !< Rank ID in current communicator
+        integer(kind=4) :: nprocs              !< Number of processes in current communicator
+        integer(kind=4) :: west_rank           !< Previous rank ID in current communicator
+        integer(kind=4) :: east_rank           !< Next rank ID in current communicator
+        integer(kind=4) :: mpi_comm            !< Current communicator
     end type cart_comm_1d
 
     ! Target attribute for the change of aggregation dimension in CGPSA
