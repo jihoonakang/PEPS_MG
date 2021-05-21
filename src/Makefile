@@ -10,7 +10,7 @@ OBJS  = $(OBJDIR)/para_range.o \
 	$(OBJDIR)/poisson_matrix_operator.o \
 	$(OBJDIR)/cg_poisson_matrix.o \
 	$(OBJDIR)/rbgs_poisson_matrix.o \
-	$(OBJDIR)/multigrid_common.o \
+	$(OBJDIR)/multigrid_debug_info.o \
 	$(OBJDIR)/multigrid.o \
 	$(OBJDIR)/main_peps.o
 

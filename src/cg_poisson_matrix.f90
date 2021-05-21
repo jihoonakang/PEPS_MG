@@ -1,3 +1,24 @@
+!======================================================================================================================
+!> @file        cg_poisson_matrix.f90
+!> @brief       This file contains a module for conjugate gradient method with heptadiagonal poisson matrix
+!> @details     This file contains a module for conjugate gradient solver with convergence criteria and
+!>              conjugate gradient iterator with iteration number
+!> @author      
+!>              - Ji-Hoon Kang (jhkang@kisti.re.kr), Korea Institute of Science and Technology Information
+!>
+!> @date        May 2021
+!> @version     1.0
+!> @par         Copyright
+!>              Copyright (c) 2021 Ji-Hoon Kang, Korea Institute of Science and Technology Information,
+!>              All rights reserved.
+!> @par         License     
+!>              This project is release under the terms of the MIT License (see LICENSE in )
+!======================================================================================================================
+
+!>
+!> @brief       Module for for conjugate gradient method with heptadiagonal poisson matrix
+!> @details     Contains conjugate gradient(CG) solver with convergence criteria and CG iterator with iteration number
+!>
 module cg_poisson_matrix
 
     use poisson_matrix_operator
@@ -13,6 +34,16 @@ module cg_poisson_matrix
 
     contains
 
+    !>
+    !> @brief       Conjugate gradient solver with convergence criteria
+    !> @param       sol             Result solution having a shape of 3D matrix
+    !> @param       a_poisson       Heptadiagonal poisson matrix
+    !> @param       rhs             RHS vector having a shape of 3D matrix
+    !> @param       dm              Subdomain
+    !> @param       maxiteration    Maximum number of iterations
+    !> @param       tolerance       Convergence criteria
+    !> @param       is_aggregated   Boolean whether domain is aggregated (.true.) or not (.false.)
+    !>
     subroutine cg_solver_poisson_matrix(sol, a_poisson, rhs, dm, maxiteration, tolerance, is_aggregated)
 
         use matrix, only        : matrix_heptadiagonal
@@ -29,6 +60,7 @@ module cg_poisson_matrix
         real(kind=8),   intent(in)              :: tolerance
         logical, intent(in)                     :: is_aggregated(0:2)
 
+        ! Local temporary variables
         integer(kind=4)     :: i, j, k, iter
         real(kind=8)        :: alpha=0.0d0, beta=0.0d0, temp1=0.0d0, temp2=0.0d0, rsd0tol=0.0d0
         real(kind=8), allocatable :: p(:,:,:), Ax(:,:,:), Ap(:,:,:), rsd(:,:,:)
@@ -44,13 +76,10 @@ module cg_poisson_matrix
         ax(:,:,:)   = 0.0d0
         ap(:,:,:)   = 0.0d0
         rsd(:,:,:)  = 0.0d0
+
+        ! Pre-process of CG algorithm
         call mv_mul_poisson_matrix(ax, a_poisson, sol, dm, is_aggregated)
 
-#ifdef USE_MKL
-        call dcopy(row_size, rhs, 1, rsd, 1)
-        call daxpy(row_size, -1.0d0, ax, 1, rsd, 1)
-        call dcopy(row_size, rsd, 1, p, 1)
-#else
 !$omp parallel do shared(rsd,rhs,ax,p)
         do k = 1, dm%nz
             do j = 1, dm%ny
@@ -60,13 +89,13 @@ module cg_poisson_matrix
                 enddo
             enddo
         enddo
-#endif
 
+        ! Initial residual
         call vv_dot_3d_matrix(rsd0tol, rsd, rsd, dm%nx, dm%ny, dm%nz, is_aggregated)
         if(myrank.eq.0) print '(a)', '[CG] Conjugate gradient is started.'
         if(myrank.eq.0) print '(a,e15.7)', '[CG] Initial residual : ', rsd0tol
 
-
+        ! Main CG algorithm
         do iter=0, maxiteration-1
 
             if ((mod(iter,10).EQ.0).AND.(myrank.eq.0)) then
@@ -81,10 +110,6 @@ module cg_poisson_matrix
 
             alpha=temp1/temp2
 
-#ifdef USE_MKL
-            call daxpy(row_size, alpha, p, 1, sol, 1)
-            call daxpy(row_size, -alpha, Ap, 1, rsd, 1)
-#else
 !$omp parallel do shared(sol,p,rsd,Ap) firstprivate(alpha)
             do k = 1, dm%nz
                 do j = 1, dm%ny
@@ -94,18 +119,14 @@ module cg_poisson_matrix
                     enddo
                 enddo
             enddo
-#endif
 
             call vv_dot_3d_matrix(temp2, rsd, rsd, dm%nx, dm%ny, dm%nz, is_aggregated)
 
+            ! Finish if convergence criteria is satisfied
             if (sqrt(temp2/rsd0tol) .LT. tolerance) exit 
 
             beta = temp2/temp1
 
-#ifdef USE_MKL
-            call dscal(row_size, beta, p, 1)
-            call daxpy(row_size, 1.0d0, rsd, 1, p, 1)
-#else
 !$omp parallel do shared(p,rsd) firstprivate(beta)
             do k = 1, dm%nz
                 do j = 1, dm%ny
@@ -114,8 +135,6 @@ module cg_poisson_matrix
                     enddo
                 enddo
             enddo
-#endif
-
         enddo
         if(myrank.eq.0) print '(a,i5,a,e15.7,a,e15.7)','[CG] Finished with total iteration = ',iter,', mse = ',sqrt(temp2),'r_mse = ',sqrt(temp2/rsd0tol)
 
@@ -126,6 +145,15 @@ module cg_poisson_matrix
 
     end subroutine cg_solver_poisson_matrix
 
+    !>
+    !> @brief       Conjugate gradient iterator with number of iteration
+    !> @param       sol             Result solution having a shape of 3D matrix
+    !> @param       a_poisson       Heptadiagonal poisson matrix
+    !> @param       rhs             RHS vector having a shape of 3D matrix
+    !> @param       dm              Subdomain
+    !> @param       maxiteration    Maximum number of iterations
+    !> @param       is_aggregated   Boolean whether domain is aggregated (.true.) or not (.false.)
+    !>
     subroutine cg_iterator_poisson_matrix(sol, a_poisson, rhs, dm, maxiteration, is_aggregated)
 
         use matrix, only        : matrix_heptadiagonal
@@ -156,13 +184,10 @@ module cg_poisson_matrix
         ax(:,:,:)   = 0.0d0
         ap(:,:,:)   = 0.0d0
         rsd(:,:,:)  = 0.0d0
+
+        ! Pre-process of CG algorithm : Initial residual is not required as number of iteration is defined
         call mv_mul_poisson_matrix(ax, a_poisson, sol, dm, is_aggregated)
 
-#ifdef USE_MKL
-        call dcopy(row_size, rhs, 1, rsd, 1)
-        call daxpy(row_size, -1.0d0, ax, 1, rsd, 1)
-        call dcopy(row_size, rsd, 1, p, 1)
-#else
 !$omp parallel do shared(rsd,rhs,ax,p)
         do k = 1, dm%nz
             do j = 1, dm%ny
@@ -172,8 +197,8 @@ module cg_poisson_matrix
                 enddo
             enddo
         enddo
-#endif
 
+        ! Main CG algorithm : Convergence check is not required as number of iteration is defined
         do iter=0, maxiteration-1
 
             call vv_dot_3d_matrix(temp1, rsd, rsd, dm%nx, dm%ny, dm%nz, is_aggregated)
@@ -183,10 +208,6 @@ module cg_poisson_matrix
 
             alpha=temp1/temp2
 
-#ifdef USE_MKL
-            call daxpy(row_size, alpha, p, 1, sol, 1)
-            call daxpy(row_size, -alpha, Ap, 1, rsd, 1)
-#else
 !$omp parallel do shared(sol,p,rsd,Ap) firstprivate(alpha)
             do k = 1, dm%nz
                 do j = 1, dm%ny
@@ -196,16 +217,11 @@ module cg_poisson_matrix
                     enddo
                 enddo
             enddo
-#endif
 
             call vv_dot_3d_matrix(temp2, rsd, rsd, dm%nx, dm%ny, dm%nz, is_aggregated)
 
             beta = temp2/temp1
 
-#ifdef USE_MKL
-            call dscal(row_size, beta, p, 1)
-            call daxpy(row_size, 1.0d0, rsd, 1, p, 1)
-#else
 !$omp parallel do shared(p,rsd) firstprivate(beta)
             do k = 1, dm%nz
                 do j = 1, dm%ny
@@ -214,8 +230,6 @@ module cg_poisson_matrix
                     enddo
                 enddo
             enddo
-#endif
-
         enddo
         if(myrank.eq.0) print '(a,i5,a,e15.7)','   [CG] CG iterator completed with total iteration = ',iter,', mse = ',sqrt(temp2)
 
