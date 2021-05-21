@@ -1,0 +1,3 @@
+<map id="matrix::matrix_heptadiagonal_create" name="matrix::matrix_heptadiagonal_create">
+<area shape="rect" id="node2" href="$namespacemultigrid.html#ac8deb32ba5698e37f75c369dc063b277" title="Create MG subdomains and Poisson matrix &#160;MG subdomain depends on aggregation type. Different subroutines are called according to aggregation type. " alt="" coords="243,5,371,47"/>
+</map>

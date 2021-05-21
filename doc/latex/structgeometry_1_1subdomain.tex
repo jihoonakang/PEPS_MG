@@ -1,0 +1,254 @@
+\hypertarget{structgeometry_1_1subdomain}{}\section{geometry\+:\+:subdomain Type Reference}
+\label{structgeometry_1_1subdomain}\index{geometry\+::subdomain@{geometry\+::subdomain}}
+
+
+Partitioned subdomain information.  
+
+
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_aea7753c3a62cce4a5c8ca8f6bce7e965}\label{structgeometry_1_1subdomain_aea7753c3a62cce4a5c8ca8f6bce7e965}} 
+real(kind=8), dimension(\+:,\+:,\+:), allocatable {\bfseries x}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_aeeeb5d9f5e919e5d674452cec8d790df}\label{structgeometry_1_1subdomain_aeeeb5d9f5e919e5d674452cec8d790df}} 
+real(kind=8), dimension(\+:,\+:,\+:), allocatable {\bfseries solution}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_a701a6ba5307a85562218bc465772fa20}\label{structgeometry_1_1subdomain_a701a6ba5307a85562218bc465772fa20}} 
+real(kind=8), dimension(\+:,\+:,\+:), allocatable {\bfseries variable}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_a98470eff2217eaa32f1169c2233a8d01}\label{structgeometry_1_1subdomain_a98470eff2217eaa32f1169c2233a8d01}} 
+real(kind=8), dimension(\+:,\+:,\+:), allocatable {\bfseries in}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_ae9181672b7a5e402c32d45a58b05c907}\label{structgeometry_1_1subdomain_ae9181672b7a5e402c32d45a58b05c907}} 
+real(kind=8), dimension(\+:,\+:,\+:), allocatable {\bfseries subdomain}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_a998dfed0dc2c8a52f074267ebbedbeb1}\label{structgeometry_1_1subdomain_a998dfed0dc2c8a52f074267ebbedbeb1}} 
+real(kind=8), dimension(\+:,\+:,\+:), allocatable {\bfseries b}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_a92a7a57f937604398d2208eed5a1c39b}\label{structgeometry_1_1subdomain_a92a7a57f937604398d2208eed5a1c39b}} 
+real(kind=8), dimension(\+:,\+:,\+:), allocatable {\bfseries rhs}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_a30c3dad173fc5e40edc8b540a71083c5}\label{structgeometry_1_1subdomain_a30c3dad173fc5e40edc8b540a71083c5}} 
+real(kind=8), dimension(\+:,\+:,\+:), allocatable {\bfseries r}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_a064448f084292cb4a38046bd276c970a}\label{structgeometry_1_1subdomain_a064448f084292cb4a38046bd276c970a}} 
+real(kind=8), dimension(\+:,\+:,\+:), allocatable {\bfseries residual}
+\end{DoxyCompactItemize}
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_afb731bbe46ffad6a0325785e65f3d299}\label{structgeometry_1_1subdomain_afb731bbe46ffad6a0325785e65f3d299}} 
+integer(kind=4) \hyperlink{structgeometry_1_1subdomain_afb731bbe46ffad6a0325785e65f3d299}{nx}
+\begin{DoxyCompactList}\small\item\em Grid numbers in the partitioned subdomain. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_a1d63f2ac817a7457c94e3ac595ee50be}\label{structgeometry_1_1subdomain_a1d63f2ac817a7457c94e3ac595ee50be}} 
+integer(kind=4) {\bfseries ny}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_ad205d5faf888902b0b1efe397f312c8e}\label{structgeometry_1_1subdomain_ad205d5faf888902b0b1efe397f312c8e}} 
+integer(kind=4) {\bfseries nz}
+\end{DoxyCompactItemize}
+
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_a1a8069b63f8022e9ac03a6f0fc1faa35}\label{structgeometry_1_1subdomain_a1a8069b63f8022e9ac03a6f0fc1faa35}} 
+real(kind=8) \hyperlink{structgeometry_1_1subdomain_a1a8069b63f8022e9ac03a6f0fc1faa35}{lx}
+\begin{DoxyCompactList}\small\item\em Physical length of the subdomain. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_acef77f76f536d1fbaff0263eb78f2dc5}\label{structgeometry_1_1subdomain_acef77f76f536d1fbaff0263eb78f2dc5}} 
+real(kind=8) {\bfseries ly}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_a43705705a2aade6c23adcf7fea50c9ee}\label{structgeometry_1_1subdomain_a43705705a2aade6c23adcf7fea50c9ee}} 
+real(kind=8) {\bfseries lz}
+\end{DoxyCompactItemize}
+
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_acc63b708a9901604f9212ecf25339e37}\label{structgeometry_1_1subdomain_acc63b708a9901604f9212ecf25339e37}} 
+real(kind=8) \hyperlink{structgeometry_1_1subdomain_acc63b708a9901604f9212ecf25339e37}{ox}
+\begin{DoxyCompactList}\small\item\em Starting coordinates of the subdomain domain. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_ace0bde92488b6ef3e52f9d098816a45c}\label{structgeometry_1_1subdomain_ace0bde92488b6ef3e52f9d098816a45c}} 
+real(kind=8) {\bfseries oy}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_ab7023adaf05009d17e10671e1ab84bfc}\label{structgeometry_1_1subdomain_ab7023adaf05009d17e10671e1ab84bfc}} 
+real(kind=8) {\bfseries oz}
+\end{DoxyCompactItemize}
+
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_a45e4c4015e95da74673bdc46cb0619eb}\label{structgeometry_1_1subdomain_a45e4c4015e95da74673bdc46cb0619eb}} 
+real(kind=8), dimension(\+:), allocatable \hyperlink{structgeometry_1_1subdomain_a45e4c4015e95da74673bdc46cb0619eb}{dxm}
+\begin{DoxyCompactList}\small\item\em Mesh (cell) size in each dimension of subdomain. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_a3994b06f249fd3ca731b1c6e301c062f}\label{structgeometry_1_1subdomain_a3994b06f249fd3ca731b1c6e301c062f}} 
+real(kind=8), dimension(\+:), allocatable {\bfseries dym}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_a68e4b6568bc410870271842e7dc9f37a}\label{structgeometry_1_1subdomain_a68e4b6568bc410870271842e7dc9f37a}} 
+real(kind=8), dimension(\+:), allocatable {\bfseries dzm}
+\end{DoxyCompactItemize}
+
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_a1f1a198a8a9dcf0a2cc571897a4bc0cb}\label{structgeometry_1_1subdomain_a1f1a198a8a9dcf0a2cc571897a4bc0cb}} 
+real(kind=8), dimension(\+:), allocatable \hyperlink{structgeometry_1_1subdomain_a1f1a198a8a9dcf0a2cc571897a4bc0cb}{dxg}
+\begin{DoxyCompactList}\small\item\em Space between grid points of subdomain. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_ad4dfb84d28757bc3c3b9fdd07c8bd373}\label{structgeometry_1_1subdomain_ad4dfb84d28757bc3c3b9fdd07c8bd373}} 
+real(kind=8), dimension(\+:), allocatable {\bfseries dyg}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_a6ab718cebcef3accb469924bc5d5d3c7}\label{structgeometry_1_1subdomain_a6ab718cebcef3accb469924bc5d5d3c7}} 
+real(kind=8), dimension(\+:), allocatable {\bfseries dzg}
+\end{DoxyCompactItemize}
+
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_aca30707e5150e7168bd8bc1371970364}\label{structgeometry_1_1subdomain_aca30707e5150e7168bd8bc1371970364}} 
+real(kind=8), dimension(\+:), allocatable \hyperlink{structgeometry_1_1subdomain_aca30707e5150e7168bd8bc1371970364}{xg}
+\begin{DoxyCompactList}\small\item\em Coordinates of grid pointss of subdomain. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_a078bcb84698ead561ca0546ba9a2e158}\label{structgeometry_1_1subdomain_a078bcb84698ead561ca0546ba9a2e158}} 
+real(kind=8), dimension(\+:), allocatable {\bfseries yg}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_afdb6b7b2dc6bfc6587a1af1c6ac3a2f0}\label{structgeometry_1_1subdomain_afdb6b7b2dc6bfc6587a1af1c6ac3a2f0}} 
+real(kind=8), dimension(\+:), allocatable {\bfseries zg}
+\end{DoxyCompactItemize}
+
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_a0f3a1589b2d2a7432226f2e6f3f34045}\label{structgeometry_1_1subdomain_a0f3a1589b2d2a7432226f2e6f3f34045}} 
+logical, dimension(0\+:2) \hyperlink{structgeometry_1_1subdomain_a0f3a1589b2d2a7432226f2e6f3f34045}{is\+\_\+periodic}
+\begin{DoxyCompactList}\small\item\em Periodic boundary condition\+: .true. if periodic, .false. if not. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_a17edfc7e8229d24f6223282092927d3e}\label{structgeometry_1_1subdomain_a17edfc7e8229d24f6223282092927d3e}} 
+logical, dimension(0\+:2) \hyperlink{structgeometry_1_1subdomain_a17edfc7e8229d24f6223282092927d3e}{is\+\_\+aggregated}
+\begin{DoxyCompactList}\small\item\em Indicate whether subdomain is aggregated in each direction\+: .true. if aggregated, .false. if not. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_af7a157d3eedb654d163f6d25253f4798}\label{structgeometry_1_1subdomain_af7a157d3eedb654d163f6d25253f4798}} 
+integer(kind=4), public \hyperlink{structgeometry_1_1subdomain_af7a157d3eedb654d163f6d25253f4798}{ista}
+\begin{DoxyCompactList}\small\item\em Indices of first and last grids of subdomain in x-\/direction, with regards to global domain. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_a5b622d801fee0488b495d2e8cbac230d}\label{structgeometry_1_1subdomain_a5b622d801fee0488b495d2e8cbac230d}} 
+integer(kind=4), public {\bfseries iend}
+\end{DoxyCompactItemize}
+
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_a06519313e1a87c437f9ca7e8325065d1}\label{structgeometry_1_1subdomain_a06519313e1a87c437f9ca7e8325065d1}} 
+integer(kind=4), public \hyperlink{structgeometry_1_1subdomain_a06519313e1a87c437f9ca7e8325065d1}{jsta}
+\begin{DoxyCompactList}\small\item\em Indices of first and last grids of subdomain in y-\/direction, with regards to global domain. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_a7ad47076a641a35c16028c2a86e304b4}\label{structgeometry_1_1subdomain_a7ad47076a641a35c16028c2a86e304b4}} 
+integer(kind=4), public {\bfseries jend}
+\end{DoxyCompactItemize}
+
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_ac83bbafe91c89c9d7c4be7df88cc3f72}\label{structgeometry_1_1subdomain_ac83bbafe91c89c9d7c4be7df88cc3f72}} 
+integer(kind=4), public \hyperlink{structgeometry_1_1subdomain_ac83bbafe91c89c9d7c4be7df88cc3f72}{ksta}
+\begin{DoxyCompactList}\small\item\em Indices of first and last grids of subdomain in z-\/direction, with regards to global domain. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_a0e622a4e26eeb8b17fdf300e4d900ffb}\label{structgeometry_1_1subdomain_a0e622a4e26eeb8b17fdf300e4d900ffb}} 
+integer(kind=4), public {\bfseries kend}
+\end{DoxyCompactItemize}
+
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_a47600c2cb2df3aa446b4eac99aa19dfa}\label{structgeometry_1_1subdomain_a47600c2cb2df3aa446b4eac99aa19dfa}} 
+integer(kind=4), public \hyperlink{structgeometry_1_1subdomain_a47600c2cb2df3aa446b4eac99aa19dfa}{ddt\+\_\+yz\+\_\+plane\+\_\+x0}
+\begin{DoxyCompactList}\small\item\em Derived datatypes for ghostcell communication in x-\/direction. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_a36c015128564011d09b03d9d238782e3}\label{structgeometry_1_1subdomain_a36c015128564011d09b03d9d238782e3}} 
+integer(kind=4), public {\bfseries ddt\+\_\+yz\+\_\+plane\+\_\+x1}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_aeddeabddc20c73b5190e44c316968222}\label{structgeometry_1_1subdomain_aeddeabddc20c73b5190e44c316968222}} 
+integer(kind=4), public {\bfseries ddt\+\_\+yz\+\_\+plane\+\_\+xn}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_a98a8b88468c10ddeb72b0e24d9912c95}\label{structgeometry_1_1subdomain_a98a8b88468c10ddeb72b0e24d9912c95}} 
+integer(kind=4), public {\bfseries ddt\+\_\+yz\+\_\+plane\+\_\+xn1}
+\end{DoxyCompactItemize}
+
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_aba7fdf219fd1e93e7b8fb10132ac7db7}\label{structgeometry_1_1subdomain_aba7fdf219fd1e93e7b8fb10132ac7db7}} 
+integer(kind=4), public \hyperlink{structgeometry_1_1subdomain_aba7fdf219fd1e93e7b8fb10132ac7db7}{ddt\+\_\+xz\+\_\+plane\+\_\+y0}
+\begin{DoxyCompactList}\small\item\em Derived datatypes for ghostcell communication in y-\/direction. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_a28fdfffc1b152f766cb919e53da06c0d}\label{structgeometry_1_1subdomain_a28fdfffc1b152f766cb919e53da06c0d}} 
+integer(kind=4), public {\bfseries ddt\+\_\+xz\+\_\+plane\+\_\+y1}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_af621df7823716c7951bd108925decfe2}\label{structgeometry_1_1subdomain_af621df7823716c7951bd108925decfe2}} 
+integer(kind=4), public {\bfseries ddt\+\_\+xz\+\_\+plane\+\_\+yn}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_af0f570d4e2eb7d1043de964a815583a3}\label{structgeometry_1_1subdomain_af0f570d4e2eb7d1043de964a815583a3}} 
+integer(kind=4), public {\bfseries ddt\+\_\+xz\+\_\+plane\+\_\+yn1}
+\end{DoxyCompactItemize}
+
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_aef06388b599b17f785bea869b6b1aa46}\label{structgeometry_1_1subdomain_aef06388b599b17f785bea869b6b1aa46}} 
+integer(kind=4), public \hyperlink{structgeometry_1_1subdomain_aef06388b599b17f785bea869b6b1aa46}{ddt\+\_\+xy\+\_\+plane\+\_\+z0}
+\begin{DoxyCompactList}\small\item\em Derived datatypes for ghostcell communication in z-\/direction. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_a62c8f53379792dee38a81714fc7ebf3b}\label{structgeometry_1_1subdomain_a62c8f53379792dee38a81714fc7ebf3b}} 
+integer(kind=4), public {\bfseries ddt\+\_\+xy\+\_\+plane\+\_\+z1}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_af89941f108e7136d906a11c126e060c4}\label{structgeometry_1_1subdomain_af89941f108e7136d906a11c126e060c4}} 
+integer(kind=4), public {\bfseries ddt\+\_\+xy\+\_\+plane\+\_\+zn}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_a39515f94c67cf944dd8289abcfc077fa}\label{structgeometry_1_1subdomain_a39515f94c67cf944dd8289abcfc077fa}} 
+integer(kind=4), public {\bfseries ddt\+\_\+xy\+\_\+plane\+\_\+zn1}
+\end{DoxyCompactItemize}
+
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_a6115dacee3e1f5aaf4cc70958ed7d9e8}\label{structgeometry_1_1subdomain_a6115dacee3e1f5aaf4cc70958ed7d9e8}} 
+integer(kind=4), public \hyperlink{structgeometry_1_1subdomain_a6115dacee3e1f5aaf4cc70958ed7d9e8}{ddt\+\_\+inner\+\_\+domain}
+\begin{DoxyCompactList}\small\item\em Derived datatypes for inner domain without ghostcell. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_ad4249dd7798aeeec124c9d573c8d4330}\label{structgeometry_1_1subdomain_ad4249dd7798aeeec124c9d573c8d4330}} 
+logical \hyperlink{structgeometry_1_1subdomain_ad4249dd7798aeeec124c9d573c8d4330}{is\+\_\+x0\+\_\+boundary}
+\begin{DoxyCompactList}\small\item\em Indicates whether the subdomain is x-\/boundary\+: .true. if at boundary, .false. if not. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_ab3fa65e9d28568523cf8ed8f5724929a}\label{structgeometry_1_1subdomain_ab3fa65e9d28568523cf8ed8f5724929a}} 
+logical {\bfseries is\+\_\+x1\+\_\+boundary}
+\end{DoxyCompactItemize}
+
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_a3d99e9e6d3d0a6fa70339d1e5e621fb4}\label{structgeometry_1_1subdomain_a3d99e9e6d3d0a6fa70339d1e5e621fb4}} 
+logical \hyperlink{structgeometry_1_1subdomain_a3d99e9e6d3d0a6fa70339d1e5e621fb4}{is\+\_\+y0\+\_\+boundary}
+\begin{DoxyCompactList}\small\item\em Indicates whether the subdomain is y-\/boundary\+: .true. if at boundary, .false. if not. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_a16c4acb7f07ab53f0203be8c939ab629}\label{structgeometry_1_1subdomain_a16c4acb7f07ab53f0203be8c939ab629}} 
+logical {\bfseries is\+\_\+y1\+\_\+boundary}
+\end{DoxyCompactItemize}
+
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_a6d5a0e5ffccf550662c1358390343279}\label{structgeometry_1_1subdomain_a6d5a0e5ffccf550662c1358390343279}} 
+logical \hyperlink{structgeometry_1_1subdomain_a6d5a0e5ffccf550662c1358390343279}{is\+\_\+z0\+\_\+boundary}
+\begin{DoxyCompactList}\small\item\em Indicates whether the subdomain is z-\/boundary\+: .true. if at boundary, .false. if not. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structgeometry_1_1subdomain_a462e04ec3b7c7bf80ff452c3d09e4fd5}\label{structgeometry_1_1subdomain_a462e04ec3b7c7bf80ff452c3d09e4fd5}} 
+logical {\bfseries is\+\_\+z1\+\_\+boundary}
+\end{DoxyCompactItemize}
+
+
+
+\subsection{Detailed Description}
+Partitioned subdomain information. 
+
+It contains the geometry of subdomain in three-\/dimensional Cartesian cooridnates. Dimensions of grids and meshes are included. Cell-\/centered grid system is employed. Grid variables, solution, R\+HS and residual, is defined in this type variable. 
+
+The documentation for this type was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/jihoon/\+Develop/\+P\+E\+P\+S\+\_\+\+M\+G/src/geometry.\+f90\end{DoxyCompactItemize}

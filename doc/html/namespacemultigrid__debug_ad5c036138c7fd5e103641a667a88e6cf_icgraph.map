@@ -1,0 +1,6 @@
+<map id="multigrid_debug::multigrid_debug_print_coarsest_level_solution" name="multigrid_debug::multigrid_debug_print_coarsest_level_solution">
+<area shape="rect" id="node2" href="$namespacemultigrid.html#aa8278baf0276649fe656c1b8f7dba30a" title="V&#45;Cycle MG solver with CGS. " alt="" coords="247,5,384,47"/>
+<area shape="rect" id="node4" href="$namespacemultigrid.html#a4295ca0af002ede1dee98750922f1f60" title="V&#45;Cycle MG solver with CGA &#160;MPI_Gather/MPI_Scatterv with derived datatypes are used for aggregation..." alt="" coords="247,71,384,112"/>
+<area shape="rect" id="node5" href="$namespacemultigrid.html#ae89565627880985244634750502edab5" title="V&#45;Cycle MG solver with CGPSA &#160;MPI_Gather/MPI_Scatterv with derived datatypes are used for aggregation..." alt="" coords="240,136,391,177"/>
+<area shape="rect" id="node3" href="$namespacemultigrid.html#a7d60c9d01777350a79ff7bd975a90121" title="V&#45;Cycle MG solver: call subroutines according to aggregation type. " alt="" coords="439,71,567,112"/>
+</map>

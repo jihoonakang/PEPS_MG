@@ -1,0 +1,10 @@
+<map id="poisson_matrix_operator::mv_mul_poisson_matrix" name="poisson_matrix_operator::mv_mul_poisson_matrix">
+<area shape="rect" id="node2" href="$namespacecg__poisson__matrix.html#a4762a692c1b2dd5070d070e90a30e8cd" title="Conjugate gradient solver with convergence criteria. " alt="" coords="224,5,397,47"/>
+<area shape="rect" id="node3" href="$namespacecg__poisson__matrix.html#a558093032b9b1f54bf1bde7bfa847829" title="Conjugate gradient iterator with number of iteration. " alt="" coords="241,71,380,127"/>
+<area shape="rect" id="node4" href="$namespacemultigrid.html#ad1ba34848f786afdf0e91afb3d3be819" title="Residual calculation. rsd = rhs &#45; a_poisson * x. " alt="" coords="445,177,573,219"/>
+<area shape="rect" id="node9" href="$namespacerbgs__poisson__matrix.html#a4706c96056deda74122016f5c07ba337" title="Red&#45;black Gauss&#45;Seidel solver with convergence criteria. " alt="" coords="236,202,385,258"/>
+<area shape="rect" id="node5" href="$namespacemultigrid.html#aa8278baf0276649fe656c1b8f7dba30a" title="V&#45;Cycle MG solver with CGS. " alt="" coords="628,112,765,153"/>
+<area shape="rect" id="node7" href="$namespacemultigrid.html#a4295ca0af002ede1dee98750922f1f60" title="V&#45;Cycle MG solver with CGA &#160;MPI_Gather/MPI_Scatterv with derived datatypes are used for aggregation..." alt="" coords="628,177,765,219"/>
+<area shape="rect" id="node8" href="$namespacemultigrid.html#ae89565627880985244634750502edab5" title="V&#45;Cycle MG solver with CGPSA &#160;MPI_Gather/MPI_Scatterv with derived datatypes are used for aggregation..." alt="" coords="621,243,772,284"/>
+<area shape="rect" id="node6" href="$namespacemultigrid.html#a7d60c9d01777350a79ff7bd975a90121" title="V&#45;Cycle MG solver: call subroutines according to aggregation type. " alt="" coords="820,177,948,219"/>
+</map>

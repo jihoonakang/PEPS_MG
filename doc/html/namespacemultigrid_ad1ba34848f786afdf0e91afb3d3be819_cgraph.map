@@ -1,0 +1,5 @@
+<map id="multigrid::multigrid_residual" name="multigrid::multigrid_residual">
+<area shape="rect" id="node2" href="$namespacepoisson__matrix__operator.html#a0a0591ff6a44595b830d4d0655e25106" title="MV multiplication for heptadiagonal poisson matrix a_poisson and 3D matrix x 3D matrix is treated as ..." alt="" coords="379,5,549,47"/>
+<area shape="rect" id="node3" href="$namespacerbgs__poisson__matrix.html#a4706c96056deda74122016f5c07ba337" title="Red&#45;black Gauss&#45;Seidel solver with convergence criteria. " alt="" coords="181,63,331,119"/>
+<area shape="rect" id="node4" href="$namespacepoisson__matrix__operator.html#a10219d15282e48b5afab88408912fb2f" title="Inner product for 3D matrix x and 3D matrix y. A 3D matrix is treated as a vector. " alt="" coords="382,71,546,112"/>
+</map>

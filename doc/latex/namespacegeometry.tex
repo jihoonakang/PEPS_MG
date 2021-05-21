@@ -1,0 +1,203 @@
+\hypertarget{namespacegeometry}{}\section{geometry Module Reference}
+\label{namespacegeometry}\index{geometry@{geometry}}
+
+
+Module for building ubdomains from the physical global domain.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \hyperlink{structgeometry_1_1domain}{domain}
+\begin{DoxyCompactList}\small\item\em Global domain information. \end{DoxyCompactList}\item 
+type \hyperlink{structgeometry_1_1subdomain}{subdomain}
+\begin{DoxyCompactList}\small\item\em Partitioned subdomain information. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \hyperlink{namespacegeometry_a707b3bbf32a44b01c6a4f28e2be7d0fc}{geometry\+\_\+domain\+\_\+create} (gdm, nx, ny, nz, ox, oy, oz, lx, ly, lz, ax, ay, az, period)
+\begin{DoxyCompactList}\small\item\em Prepare the global domain and grid information. \end{DoxyCompactList}\item 
+subroutine \hyperlink{namespacegeometry_a46da96ff458eea5b671bec82e56dc6fb}{geometry\+\_\+domain\+\_\+destroy} (gdm)
+\begin{DoxyCompactList}\small\item\em Free the variables of global domain. \end{DoxyCompactList}\item 
+subroutine \hyperlink{namespacegeometry_ad0835bda792428d5f72a71aa6ebd1526}{geometry\+\_\+subdomain\+\_\+create} (sdm, gdm)
+\begin{DoxyCompactList}\small\item\em Prepare the partitioned subdomain from global domain information. \end{DoxyCompactList}\item 
+subroutine \hyperlink{namespacegeometry_ab546189e0ddda7aea0d8cd6e479ff8f1}{geometry\+\_\+subdomain\+\_\+destroy} (sdm)
+\begin{DoxyCompactList}\small\item\em Free the variables of subdomain. \end{DoxyCompactList}\item 
+subroutine \hyperlink{namespacegeometry_a559a7fbc4327cc9a54789163e414b6eb}{geometry\+\_\+subdomain\+\_\+ddt\+\_\+create} (sdm)
+\begin{DoxyCompactList}\small\item\em Build derived datatypes for subdomain communication using ghostcells. \end{DoxyCompactList}\item 
+subroutine \hyperlink{namespacegeometry_a29d3bd98ea090130609cf1dba291ceb4}{geometry\+\_\+subdomain\+\_\+ddt\+\_\+destroy} (sdm)
+\begin{DoxyCompactList}\small\item\em Free derived datatypes for subdomain communication using ghostcells. \end{DoxyCompactList}\item 
+subroutine \hyperlink{namespacegeometry_a28c9704c14f29b1f57c491246b206991}{geometry\+\_\+halocell\+\_\+update} (u, sdm)
+\begin{DoxyCompactList}\small\item\em Update the values of boundary ghostcells through communication in all directions. \end{DoxyCompactList}\item 
+subroutine \hyperlink{namespacegeometry_a13a9857b633f18041d764401c91d2918}{geometry\+\_\+halocell\+\_\+update\+\_\+selectively} (u, sdm, is\+\_\+serial)
+\begin{DoxyCompactList}\small\item\em Update the values of boundary ghostcells through communication when the domain is not aggregated. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module for building ubdomains from the physical global domain. 
+
+This module containes domain and grid information of global domain and subdomains. Derived Datatype for ghostcell communication between the subdomains is included. 
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacegeometry_a707b3bbf32a44b01c6a4f28e2be7d0fc}\label{namespacegeometry_a707b3bbf32a44b01c6a4f28e2be7d0fc}} 
+\index{geometry@{geometry}!geometry\+\_\+domain\+\_\+create@{geometry\+\_\+domain\+\_\+create}}
+\index{geometry\+\_\+domain\+\_\+create@{geometry\+\_\+domain\+\_\+create}!geometry@{geometry}}
+\subsubsection{\texorpdfstring{geometry\+\_\+domain\+\_\+create()}{geometry\_domain\_create()}}
+{\footnotesize\ttfamily subroutine geometry\+::geometry\+\_\+domain\+\_\+create (\begin{DoxyParamCaption}\item[{type(\hyperlink{structgeometry_1_1domain}{domain}), intent(inout)}]{gdm,  }\item[{integer(kind=4), intent(in)}]{nx,  }\item[{integer(kind=4), intent(in)}]{ny,  }\item[{integer(kind=4), intent(in)}]{nz,  }\item[{real(kind=8), intent(in)}]{ox,  }\item[{real(kind=8), intent(in)}]{oy,  }\item[{real(kind=8), intent(in)}]{oz,  }\item[{real(kind=8), intent(in)}]{lx,  }\item[{real(kind=8), intent(in)}]{ly,  }\item[{real(kind=8), intent(in)}]{lz,  }\item[{real(kind=8), intent(in)}]{ax,  }\item[{real(kind=8), intent(in)}]{ay,  }\item[{real(kind=8), intent(in)}]{az,  }\item[{logical, dimension(0\+:2), intent(in)}]{period }\end{DoxyParamCaption})}
+
+
+
+Prepare the global domain and grid information. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em gdm} & Global domain \\
+\hline
+{\em nx} & Number of grid in x-\/direction \\
+\hline
+{\em ny} & Number of grid in y-\/direction \\
+\hline
+{\em nz} & Number of grid in z-\/direction \\
+\hline
+{\em ox} & Starting coordinate of global domain in x-\/direction \\
+\hline
+{\em oy} & Starting coordinate of global domain in y-\/direction \\
+\hline
+{\em oz} & Starting coordinate of global domain in z-\/direction \\
+\hline
+{\em lx} & Physical length of global domain in x-\/direction \\
+\hline
+{\em ly} & Physical length of global domain in y-\/direction \\
+\hline
+{\em lz} & Physical length of global domain in z-\/direction \\
+\hline
+{\em ax} & Mesh stretch ratio in x-\/direction \\
+\hline
+{\em ay} & Mesh stretch ratio in y-\/direction \\
+\hline
+{\em az} & Mesh stretch ratio in z-\/direction \\
+\hline
+{\em period} & Periodicity of global domain \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespacegeometry_a46da96ff458eea5b671bec82e56dc6fb}\label{namespacegeometry_a46da96ff458eea5b671bec82e56dc6fb}} 
+\index{geometry@{geometry}!geometry\+\_\+domain\+\_\+destroy@{geometry\+\_\+domain\+\_\+destroy}}
+\index{geometry\+\_\+domain\+\_\+destroy@{geometry\+\_\+domain\+\_\+destroy}!geometry@{geometry}}
+\subsubsection{\texorpdfstring{geometry\+\_\+domain\+\_\+destroy()}{geometry\_domain\_destroy()}}
+{\footnotesize\ttfamily subroutine geometry\+::geometry\+\_\+domain\+\_\+destroy (\begin{DoxyParamCaption}\item[{type(\hyperlink{structgeometry_1_1domain}{domain}), intent(inout)}]{gdm }\end{DoxyParamCaption})}
+
+
+
+Free the variables of global domain. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em gdm} & Global domain \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespacegeometry_a28c9704c14f29b1f57c491246b206991}\label{namespacegeometry_a28c9704c14f29b1f57c491246b206991}} 
+\index{geometry@{geometry}!geometry\+\_\+halocell\+\_\+update@{geometry\+\_\+halocell\+\_\+update}}
+\index{geometry\+\_\+halocell\+\_\+update@{geometry\+\_\+halocell\+\_\+update}!geometry@{geometry}}
+\subsubsection{\texorpdfstring{geometry\+\_\+halocell\+\_\+update()}{geometry\_halocell\_update()}}
+{\footnotesize\ttfamily subroutine geometry\+::geometry\+\_\+halocell\+\_\+update (\begin{DoxyParamCaption}\item[{real(kind=8), dimension(0\+:,0\+:,0\+:), intent(inout)}]{u,  }\item[{type(\hyperlink{structgeometry_1_1subdomain}{subdomain}), intent(in)}]{sdm }\end{DoxyParamCaption})}
+
+
+
+Update the values of boundary ghostcells through communication in all directions. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em u} & Grid variable to be updated \\
+\hline
+{\em sdm} & Subdomain \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespacegeometry_a13a9857b633f18041d764401c91d2918}\label{namespacegeometry_a13a9857b633f18041d764401c91d2918}} 
+\index{geometry@{geometry}!geometry\+\_\+halocell\+\_\+update\+\_\+selectively@{geometry\+\_\+halocell\+\_\+update\+\_\+selectively}}
+\index{geometry\+\_\+halocell\+\_\+update\+\_\+selectively@{geometry\+\_\+halocell\+\_\+update\+\_\+selectively}!geometry@{geometry}}
+\subsubsection{\texorpdfstring{geometry\+\_\+halocell\+\_\+update\+\_\+selectively()}{geometry\_halocell\_update\_selectively()}}
+{\footnotesize\ttfamily subroutine geometry\+::geometry\+\_\+halocell\+\_\+update\+\_\+selectively (\begin{DoxyParamCaption}\item[{real(kind=8), dimension(0\+:,0\+:,0\+:), intent(inout)}]{u,  }\item[{type(\hyperlink{structgeometry_1_1subdomain}{subdomain}), intent(in)}]{sdm,  }\item[{logical, dimension(0\+:2), intent(in)}]{is\+\_\+serial }\end{DoxyParamCaption})}
+
+
+
+Update the values of boundary ghostcells through communication when the domain is not aggregated. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em u} & Grid variable to be updated \\
+\hline
+{\em sdm} & Subdomain \\
+\hline
+{\em is\+\_\+serial} & Boolean whether the subdomain is aggregated(.true.) or not(.false.) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespacegeometry_ad0835bda792428d5f72a71aa6ebd1526}\label{namespacegeometry_ad0835bda792428d5f72a71aa6ebd1526}} 
+\index{geometry@{geometry}!geometry\+\_\+subdomain\+\_\+create@{geometry\+\_\+subdomain\+\_\+create}}
+\index{geometry\+\_\+subdomain\+\_\+create@{geometry\+\_\+subdomain\+\_\+create}!geometry@{geometry}}
+\subsubsection{\texorpdfstring{geometry\+\_\+subdomain\+\_\+create()}{geometry\_subdomain\_create()}}
+{\footnotesize\ttfamily subroutine geometry\+::geometry\+\_\+subdomain\+\_\+create (\begin{DoxyParamCaption}\item[{type(\hyperlink{structgeometry_1_1subdomain}{subdomain}), intent(inout)}]{sdm,  }\item[{type(\hyperlink{structgeometry_1_1domain}{domain}), intent(in)}]{gdm }\end{DoxyParamCaption})}
+
+
+
+Prepare the partitioned subdomain from global domain information. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em gdm} & Global domain \\
+\hline
+{\em sdm} & Partitioned subdomain \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=285pt]{namespacegeometry_ad0835bda792428d5f72a71aa6ebd1526_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacegeometry_a559a7fbc4327cc9a54789163e414b6eb}\label{namespacegeometry_a559a7fbc4327cc9a54789163e414b6eb}} 
+\index{geometry@{geometry}!geometry\+\_\+subdomain\+\_\+ddt\+\_\+create@{geometry\+\_\+subdomain\+\_\+ddt\+\_\+create}}
+\index{geometry\+\_\+subdomain\+\_\+ddt\+\_\+create@{geometry\+\_\+subdomain\+\_\+ddt\+\_\+create}!geometry@{geometry}}
+\subsubsection{\texorpdfstring{geometry\+\_\+subdomain\+\_\+ddt\+\_\+create()}{geometry\_subdomain\_ddt\_create()}}
+{\footnotesize\ttfamily subroutine geometry\+::geometry\+\_\+subdomain\+\_\+ddt\+\_\+create (\begin{DoxyParamCaption}\item[{type(\hyperlink{structgeometry_1_1subdomain}{subdomain}), intent(inout)}]{sdm }\end{DoxyParamCaption})}
+
+
+
+Build derived datatypes for subdomain communication using ghostcells. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sdm} & Subdomain \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespacegeometry_a29d3bd98ea090130609cf1dba291ceb4}\label{namespacegeometry_a29d3bd98ea090130609cf1dba291ceb4}} 
+\index{geometry@{geometry}!geometry\+\_\+subdomain\+\_\+ddt\+\_\+destroy@{geometry\+\_\+subdomain\+\_\+ddt\+\_\+destroy}}
+\index{geometry\+\_\+subdomain\+\_\+ddt\+\_\+destroy@{geometry\+\_\+subdomain\+\_\+ddt\+\_\+destroy}!geometry@{geometry}}
+\subsubsection{\texorpdfstring{geometry\+\_\+subdomain\+\_\+ddt\+\_\+destroy()}{geometry\_subdomain\_ddt\_destroy()}}
+{\footnotesize\ttfamily subroutine geometry\+::geometry\+\_\+subdomain\+\_\+ddt\+\_\+destroy (\begin{DoxyParamCaption}\item[{type(\hyperlink{structgeometry_1_1subdomain}{subdomain}), intent(inout)}]{sdm }\end{DoxyParamCaption})}
+
+
+
+Free derived datatypes for subdomain communication using ghostcells. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sdm} & subdomain \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespacegeometry_ab546189e0ddda7aea0d8cd6e479ff8f1}\label{namespacegeometry_ab546189e0ddda7aea0d8cd6e479ff8f1}} 
+\index{geometry@{geometry}!geometry\+\_\+subdomain\+\_\+destroy@{geometry\+\_\+subdomain\+\_\+destroy}}
+\index{geometry\+\_\+subdomain\+\_\+destroy@{geometry\+\_\+subdomain\+\_\+destroy}!geometry@{geometry}}
+\subsubsection{\texorpdfstring{geometry\+\_\+subdomain\+\_\+destroy()}{geometry\_subdomain\_destroy()}}
+{\footnotesize\ttfamily subroutine geometry\+::geometry\+\_\+subdomain\+\_\+destroy (\begin{DoxyParamCaption}\item[{type(\hyperlink{structgeometry_1_1subdomain}{subdomain}), intent(inout)}]{sdm }\end{DoxyParamCaption})}
+
+
+
+Free the variables of subdomain. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sdm} & Subdomain \\
+\hline
+\end{DoxyParams}

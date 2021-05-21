@@ -1,0 +1,13 @@
+<map id="multigrid::multigrid_solve_vcycle" name="multigrid::multigrid_solve_vcycle">
+<area shape="rect" id="node2" href="$namespacemultigrid.html#aa8278baf0276649fe656c1b8f7dba30a" title="V&#45;Cycle MG solver with CGS. " alt="" coords="188,238,325,279"/>
+<area shape="rect" id="node11" href="$namespacemultigrid.html#a4295ca0af002ede1dee98750922f1f60" title="V&#45;Cycle MG solver with CGA &#160;MPI_Gather/MPI_Scatterv with derived datatypes are used for aggregation..." alt="" coords="188,107,325,148"/>
+<area shape="rect" id="node12" href="$namespacemultigrid.html#ae89565627880985244634750502edab5" title="V&#45;Cycle MG solver with CGPSA &#160;MPI_Gather/MPI_Scatterv with derived datatypes are used for aggregation..." alt="" coords="181,172,332,214"/>
+<area shape="rect" id="node3" href="$namespacemultigrid.html#ad1ba34848f786afdf0e91afb3d3be819" title="Residual calculation. rsd = rhs &#45; a_poisson * x. " alt="" coords="409,34,537,75"/>
+<area shape="rect" id="node6" href="$namespacepoisson__matrix__operator.html#a10219d15282e48b5afab88408912fb2f" title="Inner product for 3D matrix x and 3D matrix y. A 3D matrix is treated as a vector. " alt="" coords="867,136,1031,178"/>
+<area shape="rect" id="node7" href="$namespacerbgs__poisson__matrix.html#a35a0647dd0b1e09cb482bde7fba2be91" title="Red&#45;black Gauss&#45;Seidel solver with convergence criteria. " alt="" coords="396,100,551,156"/>
+<area shape="rect" id="node8" href="$namespacemultigrid__debug.html#ad5c036138c7fd5e103641a667a88e6cf" title="Print the solution in the coarsest level. " alt="" coords="380,230,567,286"/>
+<area shape="rect" id="node9" href="$namespacemultigrid.html#a839d1e13e2d0bac4959deec5669d4171" title="Prolongation subroutine for CGS, CGA, and CGPSA &#160;This subroutine is commonly used by using stride_f a..." alt="" coords="402,310,545,366"/>
+<area shape="rect" id="node4" href="$namespacepoisson__matrix__operator.html#a0a0591ff6a44595b830d4d0655e25106" title="MV multiplication for heptadiagonal poisson matrix a_poisson and 3D matrix x 3D matrix is treated as ..." alt="" coords="864,67,1035,108"/>
+<area shape="rect" id="node5" href="$namespacerbgs__poisson__matrix.html#a4706c96056deda74122016f5c07ba337" title="Red&#45;black Gauss&#45;Seidel solver with convergence criteria. " alt="" coords="641,92,790,148"/>
+<area shape="rect" id="node10" href="$namespacemultigrid__debug.html#a4e9617a0cc65c4169970f289117de416" title="Print the prolongation results from coarser grid to finer grid. " alt="" coords="615,318,816,359"/>
+</map>

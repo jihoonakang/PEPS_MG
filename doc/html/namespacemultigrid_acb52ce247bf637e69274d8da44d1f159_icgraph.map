@@ -1,0 +1,3 @@
+<map id="multigrid::multigrid_subdomain_create_cgs" name="multigrid::multigrid_subdomain_create_cgs">
+<area shape="rect" id="node2" href="$namespacemultigrid.html#ac8deb32ba5698e37f75c369dc063b277" title="Create MG subdomains and Poisson matrix &#160;MG subdomain depends on aggregation type. Different subroutines are called according to aggregation type. " alt="" coords="216,5,344,47"/>
+</map>

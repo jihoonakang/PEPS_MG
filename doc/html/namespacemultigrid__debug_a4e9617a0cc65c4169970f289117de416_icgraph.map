@@ -1,0 +1,7 @@
+<map id="multigrid_debug::multigrid_debug_print_prolongation_info" name="multigrid_debug::multigrid_debug_print_prolongation_info">
+<area shape="rect" id="node2" href="$namespacemultigrid.html#a839d1e13e2d0bac4959deec5669d4171" title="Prolongation subroutine for CGS, CGA, and CGPSA &#160;This subroutine is commonly used by using stride_f a..." alt="" coords="255,63,397,119"/>
+<area shape="rect" id="node3" href="$namespacemultigrid.html#aa8278baf0276649fe656c1b8f7dba30a" title="V&#45;Cycle MG solver with CGS. " alt="" coords="452,5,589,47"/>
+<area shape="rect" id="node5" href="$namespacemultigrid.html#a4295ca0af002ede1dee98750922f1f60" title="V&#45;Cycle MG solver with CGA &#160;MPI_Gather/MPI_Scatterv with derived datatypes are used for aggregation..." alt="" coords="452,71,589,112"/>
+<area shape="rect" id="node6" href="$namespacemultigrid.html#ae89565627880985244634750502edab5" title="V&#45;Cycle MG solver with CGPSA &#160;MPI_Gather/MPI_Scatterv with derived datatypes are used for aggregation..." alt="" coords="445,136,596,177"/>
+<area shape="rect" id="node4" href="$namespacemultigrid.html#a7d60c9d01777350a79ff7bd975a90121" title="V&#45;Cycle MG solver: call subroutines according to aggregation type. " alt="" coords="644,71,772,112"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="multigrid::multigrid_prolongation_linear_on_nonuniform_grid" name="multigrid::multigrid_prolongation_linear_on_nonuniform_grid">
+<area shape="rect" id="node2" href="$namespacemultigrid.html#aa8278baf0276649fe656c1b8f7dba30a" title="V&#45;Cycle MG solver with CGS. " alt="" coords="203,5,340,47"/>
+<area shape="rect" id="node4" href="$namespacemultigrid.html#a4295ca0af002ede1dee98750922f1f60" title="V&#45;Cycle MG solver with CGA &#160;MPI_Gather/MPI_Scatterv with derived datatypes are used for aggregation..." alt="" coords="203,71,340,112"/>
+<area shape="rect" id="node5" href="$namespacemultigrid.html#ae89565627880985244634750502edab5" title="V&#45;Cycle MG solver with CGPSA &#160;MPI_Gather/MPI_Scatterv with derived datatypes are used for aggregation..." alt="" coords="196,136,347,177"/>
+<area shape="rect" id="node3" href="$namespacemultigrid.html#a7d60c9d01777350a79ff7bd975a90121" title="V&#45;Cycle MG solver: call subroutines according to aggregation type. " alt="" coords="395,71,523,112"/>
+</map>

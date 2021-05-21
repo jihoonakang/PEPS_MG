@@ -1,0 +1,48 @@
+\hypertarget{multigrid__debug__info_8f90}{}\section{/home/jihoon/\+Develop/\+P\+E\+P\+S\+\_\+\+M\+G/src/multigrid\+\_\+debug\+\_\+info.f90 File Reference}
+\label{multigrid__debug__info_8f90}\index{/home/jihoon/\+Develop/\+P\+E\+P\+S\+\_\+\+M\+G/src/multigrid\+\_\+debug\+\_\+info.\+f90@{/home/jihoon/\+Develop/\+P\+E\+P\+S\+\_\+\+M\+G/src/multigrid\+\_\+debug\+\_\+info.\+f90}}
+
+
+This file contains a module for printing multigrid information for debugging.  
+
+
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+module \hyperlink{namespacemultigrid__debug}{multigrid\+\_\+debug}
+\begin{DoxyCompactList}\small\item\em Module for printing multigrid information for debugging. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine, public \hyperlink{namespacemultigrid__debug_aa5dcd15e32c5dc719638263835c5ed43}{multigrid\+\_\+debug\+::multigrid\+\_\+debug\+\_\+print\+\_\+subdomain\+\_\+grid\+\_\+info} (sdm, mg\+\_\+sdm, n\+\_\+levels)
+\begin{DoxyCompactList}\small\item\em Print the grid information. \end{DoxyCompactList}\item 
+subroutine, public \hyperlink{namespacemultigrid__debug_aae55d6fc6a22d97825619d5bb58a1b88}{multigrid\+\_\+debug\+::multigrid\+\_\+debug\+\_\+print\+\_\+poisson\+\_\+matrix\+\_\+info} (mg\+\_\+sdm, mg\+\_\+a\+\_\+poisson, lv)
+\begin{DoxyCompactList}\small\item\em Print the poisson matrix info in multigrid levels. \end{DoxyCompactList}\item 
+subroutine, public \hyperlink{namespacemultigrid__debug_a99e36a8239b91fbf3681cd88ab8f06dd}{multigrid\+\_\+debug\+::multigrid\+\_\+debug\+\_\+print\+\_\+restriction\+\_\+info} (val\+\_\+c, val\+\_\+f, vol\+\_\+c, vol\+\_\+f, level, nx\+\_\+c, ny\+\_\+c, nz\+\_\+c, i\+\_\+stride\+\_\+f, j\+\_\+stride\+\_\+f, k\+\_\+stride\+\_\+f, i\+\_\+offset\+\_\+f, j\+\_\+offset\+\_\+f, k\+\_\+offset\+\_\+f)
+\begin{DoxyCompactList}\small\item\em Print the restriction results from finer grid to coarser grid. \end{DoxyCompactList}\item 
+subroutine, public \hyperlink{namespacemultigrid__debug_a4e9617a0cc65c4169970f289117de416}{multigrid\+\_\+debug\+::multigrid\+\_\+debug\+\_\+print\+\_\+prolongation\+\_\+info} (val\+\_\+c, val\+\_\+f, level, nx\+\_\+f, ny\+\_\+f, nz\+\_\+f, i\+\_\+stride\+\_\+f, j\+\_\+stride\+\_\+f, k\+\_\+stride\+\_\+f, i\+\_\+offset\+\_\+f, j\+\_\+offset\+\_\+f, k\+\_\+offset\+\_\+f)
+\begin{DoxyCompactList}\small\item\em Print the prolongation results from coarser grid to finer grid. \end{DoxyCompactList}\item 
+subroutine, public \hyperlink{namespacemultigrid__debug_ad5c036138c7fd5e103641a667a88e6cf}{multigrid\+\_\+debug\+::multigrid\+\_\+debug\+\_\+print\+\_\+coarsest\+\_\+level\+\_\+solution} (cyc, mg\+\_\+sdm)
+\begin{DoxyCompactList}\small\item\em Print the solution in the coarsest level. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file contains a module for printing multigrid information for debugging. 
+
+\begin{DoxyAuthor}{Author}
+
+\begin{DoxyItemize}
+\item Ji-\/\+Hoon Kang (\href{mailto:jhkang@kisti.re.kr}{\tt jhkang@kisti.\+re.\+kr}), Korea Institute of Science and Technology Information
+\end{DoxyItemize}
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+May 2021 
+\end{DoxyDate}
+\begin{DoxyVersion}{Version}
+1.\+0 
+\end{DoxyVersion}
+\begin{DoxyParagraph}{Copyright}
+Copyright (c) 2021 Ji-\/\+Hoon Kang, Korea Institute of Science and Technology Information, All rights reserved. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{License }
+This project is release under the terms of the M\+IT License (see L\+I\+C\+E\+N\+SE in ) 
+\end{DoxyParagraph}

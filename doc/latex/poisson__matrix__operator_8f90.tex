@@ -1,0 +1,42 @@
+\hypertarget{poisson__matrix__operator_8f90}{}\section{/home/jihoon/\+Develop/\+P\+E\+P\+S\+\_\+\+M\+G/src/poisson\+\_\+matrix\+\_\+operator.f90 File Reference}
+\label{poisson__matrix__operator_8f90}\index{/home/jihoon/\+Develop/\+P\+E\+P\+S\+\_\+\+M\+G/src/poisson\+\_\+matrix\+\_\+operator.\+f90@{/home/jihoon/\+Develop/\+P\+E\+P\+S\+\_\+\+M\+G/src/poisson\+\_\+matrix\+\_\+operator.\+f90}}
+
+
+This file contains a module that conducts matrix operations of heptadiagonal poisson matrix.  
+
+
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+module \hyperlink{namespacepoisson__matrix__operator}{poisson\+\_\+matrix\+\_\+operator}
+\begin{DoxyCompactList}\small\item\em Module for matrix operations of heptadiagonal poisson matrix. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine, public \hyperlink{namespacepoisson__matrix__operator_a10219d15282e48b5afab88408912fb2f}{poisson\+\_\+matrix\+\_\+operator\+::vv\+\_\+dot\+\_\+3d\+\_\+matrix} (result, x, y, nx, ny, nz, is\+\_\+serial)
+\begin{DoxyCompactList}\small\item\em Inner product for 3D matrix x and 3D matrix y. A 3D matrix is treated as a vector. \end{DoxyCompactList}\item 
+subroutine, public \hyperlink{namespacepoisson__matrix__operator_a0a0591ff6a44595b830d4d0655e25106}{poisson\+\_\+matrix\+\_\+operator\+::mv\+\_\+mul\+\_\+poisson\+\_\+matrix} (y, a\+\_\+poisson, x, dm, is\+\_\+serial)
+\begin{DoxyCompactList}\small\item\em MV multiplication for heptadiagonal poisson matrix a\+\_\+poisson and 3D matrix x 3D matrix is treated as a vector and poisson matrix is treated as a matrix. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file contains a module that conducts matrix operations of heptadiagonal poisson matrix. 
+
+The operations contains MV multiplication and VV inner product \begin{DoxyAuthor}{Author}
+
+\begin{DoxyItemize}
+\item Ji-\/\+Hoon Kang (\href{mailto:jhkang@kisti.re.kr}{\tt jhkang@kisti.\+re.\+kr}), Korea Institute of Science and Technology Information
+\end{DoxyItemize}
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+May 2021 
+\end{DoxyDate}
+\begin{DoxyVersion}{Version}
+1.\+0 
+\end{DoxyVersion}
+\begin{DoxyParagraph}{Copyright}
+Copyright (c) 2021 Ji-\/\+Hoon Kang, Korea Institute of Science and Technology Information, All rights reserved. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{License }
+This project is release under the terms of the M\+IT License (see L\+I\+C\+E\+N\+SE in ) 
+\end{DoxyParagraph}

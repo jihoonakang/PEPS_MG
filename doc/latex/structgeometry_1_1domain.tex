@@ -1,0 +1,103 @@
+\hypertarget{structgeometry_1_1domain}{}\section{geometry\+:\+:domain Type Reference}
+\label{structgeometry_1_1domain}\index{geometry\+::domain@{geometry\+::domain}}
+
+
+Global domain information.  
+
+
+\subsection*{Public Attributes}
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1domain_a3569446a72ab2191992294f16315edf1}\label{structgeometry_1_1domain_a3569446a72ab2191992294f16315edf1}} 
+integer(kind=4) \hyperlink{structgeometry_1_1domain_a3569446a72ab2191992294f16315edf1}{nx}
+\begin{DoxyCompactList}\small\item\em Number of grids in the global domain. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structgeometry_1_1domain_aadb56ae70277efeb96d8552e7d19b694}\label{structgeometry_1_1domain_aadb56ae70277efeb96d8552e7d19b694}} 
+integer(kind=4) {\bfseries ny}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1domain_aa92f4b4c069ce0a2544e2222ca0b0594}\label{structgeometry_1_1domain_aa92f4b4c069ce0a2544e2222ca0b0594}} 
+integer(kind=4) {\bfseries nz}
+\end{DoxyCompactItemize}
+
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1domain_a8897d7f377fd3fd5853405e5c9692d12}\label{structgeometry_1_1domain_a8897d7f377fd3fd5853405e5c9692d12}} 
+real(kind=8) \hyperlink{structgeometry_1_1domain_a8897d7f377fd3fd5853405e5c9692d12}{lx}
+\begin{DoxyCompactList}\small\item\em Physical length of the global domain. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structgeometry_1_1domain_a7c1f54c66cde6b0ec541b2f7846229a8}\label{structgeometry_1_1domain_a7c1f54c66cde6b0ec541b2f7846229a8}} 
+real(kind=8) {\bfseries ly}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1domain_aebbb0cfc027eec3f9eaafed12dfd9fdb}\label{structgeometry_1_1domain_aebbb0cfc027eec3f9eaafed12dfd9fdb}} 
+real(kind=8) {\bfseries lz}
+\end{DoxyCompactItemize}
+
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1domain_aecb690de419cdff12180b6c73aa87daf}\label{structgeometry_1_1domain_aecb690de419cdff12180b6c73aa87daf}} 
+real(kind=8) \hyperlink{structgeometry_1_1domain_aecb690de419cdff12180b6c73aa87daf}{ox}
+\begin{DoxyCompactList}\small\item\em Starting coordinates of the global domain. (x0, y0, z0) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structgeometry_1_1domain_a1e4a155922f64d3b2f95efbb93cfa570}\label{structgeometry_1_1domain_a1e4a155922f64d3b2f95efbb93cfa570}} 
+real(kind=8) {\bfseries oy}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1domain_acdd00f08acd1037a5b4eff090c3a19d1}\label{structgeometry_1_1domain_acdd00f08acd1037a5b4eff090c3a19d1}} 
+real(kind=8) {\bfseries oz}
+\end{DoxyCompactItemize}
+
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1domain_a51f16943b22e5acab127f91248fca50b}\label{structgeometry_1_1domain_a51f16943b22e5acab127f91248fca50b}} 
+real(kind=8), dimension(\+:), allocatable \hyperlink{structgeometry_1_1domain_a51f16943b22e5acab127f91248fca50b}{dxm}
+\begin{DoxyCompactList}\small\item\em Mesh (cell) size in each dimension. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structgeometry_1_1domain_a6e0e0af9dca8a54dfe4d5aab0e85ba75}\label{structgeometry_1_1domain_a6e0e0af9dca8a54dfe4d5aab0e85ba75}} 
+real(kind=8), dimension(\+:), allocatable {\bfseries dym}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1domain_ae33cc4a55efbe7f1dc0eded6c73aa4b3}\label{structgeometry_1_1domain_ae33cc4a55efbe7f1dc0eded6c73aa4b3}} 
+real(kind=8), dimension(\+:), allocatable {\bfseries dzm}
+\end{DoxyCompactItemize}
+
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1domain_a8c14a8b59fb785d4b2269dc8076da6da}\label{structgeometry_1_1domain_a8c14a8b59fb785d4b2269dc8076da6da}} 
+real(kind=8), dimension(\+:), allocatable \hyperlink{structgeometry_1_1domain_a8c14a8b59fb785d4b2269dc8076da6da}{dxg}
+\begin{DoxyCompactList}\small\item\em Space between grid points. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structgeometry_1_1domain_ace85559dc512416edb86321ab9c114e4}\label{structgeometry_1_1domain_ace85559dc512416edb86321ab9c114e4}} 
+real(kind=8), dimension(\+:), allocatable {\bfseries dyg}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1domain_a3fb6344986301deb02c4cae52b0e4cd3}\label{structgeometry_1_1domain_a3fb6344986301deb02c4cae52b0e4cd3}} 
+real(kind=8), dimension(\+:), allocatable {\bfseries dzg}
+\end{DoxyCompactItemize}
+
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1domain_ae361f615bcd5fe5d4d8046ad04a32d2b}\label{structgeometry_1_1domain_ae361f615bcd5fe5d4d8046ad04a32d2b}} 
+real(kind=8), dimension(\+:), allocatable \hyperlink{structgeometry_1_1domain_ae361f615bcd5fe5d4d8046ad04a32d2b}{xg}
+\begin{DoxyCompactList}\small\item\em Coordinates of grid pointss. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structgeometry_1_1domain_a2a98fddcd9b8f316d4a9bd5bd5fac39f}\label{structgeometry_1_1domain_a2a98fddcd9b8f316d4a9bd5bd5fac39f}} 
+real(kind=8), dimension(\+:), allocatable {\bfseries yg}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1domain_aca2383065957f2968b9261eccd000c3c}\label{structgeometry_1_1domain_aca2383065957f2968b9261eccd000c3c}} 
+real(kind=8), dimension(\+:), allocatable {\bfseries zg}
+\end{DoxyCompactItemize}
+
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structgeometry_1_1domain_a7f5ef8616243a13ec432ec9077ea1d0a}\label{structgeometry_1_1domain_a7f5ef8616243a13ec432ec9077ea1d0a}} 
+logical, dimension(0\+:2) \hyperlink{structgeometry_1_1domain_a7f5ef8616243a13ec432ec9077ea1d0a}{is\+\_\+periodic}
+\begin{DoxyCompactList}\small\item\em Periodic boundary condition\+: .true. if periodic, .false. if not. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+
+\subsection{Detailed Description}
+Global domain information. 
+
+It contains the geometry of global domain in three-\/dimensional Cartesian cooridnates. Dimensions of grids and meshes are included. Cell-\/centered grid system is employed. 
+
+The documentation for this type was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/jihoon/\+Develop/\+P\+E\+P\+S\+\_\+\+M\+G/src/geometry.\+f90\end{DoxyCompactItemize}

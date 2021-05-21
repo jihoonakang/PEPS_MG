@@ -1,0 +1,90 @@
+\hypertarget{namespacecg__poisson__matrix}{}\section{cg\+\_\+poisson\+\_\+matrix Module Reference}
+\label{namespacecg__poisson__matrix}\index{cg\+\_\+poisson\+\_\+matrix@{cg\+\_\+poisson\+\_\+matrix}}
+
+
+Module for for conjugate gradient method with heptadiagonal poisson matrix.  
+
+
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine, public \hyperlink{namespacecg__poisson__matrix_a4762a692c1b2dd5070d070e90a30e8cd}{cg\+\_\+solver\+\_\+poisson\+\_\+matrix} (sol, a\+\_\+poisson, rhs, dm, maxiteration, tolerance, is\+\_\+aggregated)
+\begin{DoxyCompactList}\small\item\em Conjugate gradient solver with convergence criteria. \end{DoxyCompactList}\item 
+subroutine, public \hyperlink{namespacecg__poisson__matrix_a558093032b9b1f54bf1bde7bfa847829}{cg\+\_\+iterator\+\_\+poisson\+\_\+matrix} (sol, a\+\_\+poisson, rhs, dm, maxiteration, is\+\_\+aggregated)
+\begin{DoxyCompactList}\small\item\em Conjugate gradient iterator with number of iteration. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module for for conjugate gradient method with heptadiagonal poisson matrix. 
+
+Contains conjugate gradient(\+C\+G) solver with convergence criteria and CG iterator with iteration number 
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacecg__poisson__matrix_a558093032b9b1f54bf1bde7bfa847829}\label{namespacecg__poisson__matrix_a558093032b9b1f54bf1bde7bfa847829}} 
+\index{cg\+\_\+poisson\+\_\+matrix@{cg\+\_\+poisson\+\_\+matrix}!cg\+\_\+iterator\+\_\+poisson\+\_\+matrix@{cg\+\_\+iterator\+\_\+poisson\+\_\+matrix}}
+\index{cg\+\_\+iterator\+\_\+poisson\+\_\+matrix@{cg\+\_\+iterator\+\_\+poisson\+\_\+matrix}!cg\+\_\+poisson\+\_\+matrix@{cg\+\_\+poisson\+\_\+matrix}}
+\subsubsection{\texorpdfstring{cg\+\_\+iterator\+\_\+poisson\+\_\+matrix()}{cg\_iterator\_poisson\_matrix()}}
+{\footnotesize\ttfamily subroutine, public cg\+\_\+poisson\+\_\+matrix\+::cg\+\_\+iterator\+\_\+poisson\+\_\+matrix (\begin{DoxyParamCaption}\item[{real(kind=8), dimension(0\+:,0\+:,0\+:), intent(inout)}]{sol,  }\item[{type(\hyperlink{structmatrix_1_1matrix__heptadiagonal}{matrix\+\_\+heptadiagonal}), intent(in)}]{a\+\_\+poisson,  }\item[{real(kind=8), dimension(0\+:,0\+:,0\+:), intent(in)}]{rhs,  }\item[{type(\hyperlink{structgeometry_1_1subdomain}{subdomain}), intent(in)}]{dm,  }\item[{integer(kind=4), intent(in)}]{maxiteration,  }\item[{logical, dimension(0\+:2), intent(in)}]{is\+\_\+aggregated }\end{DoxyParamCaption})}
+
+
+
+Conjugate gradient iterator with number of iteration. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sol} & Result solution having a shape of 3D matrix \\
+\hline
+{\em a\+\_\+poisson} & Heptadiagonal poisson matrix \\
+\hline
+{\em rhs} & R\+HS vector having a shape of 3D matrix \\
+\hline
+{\em dm} & Subdomain \\
+\hline
+{\em maxiteration} & Maximum number of iterations \\
+\hline
+{\em is\+\_\+aggregated} & Boolean whether domain is aggregated (.true.) or not (.false.) \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=348pt]{namespacecg__poisson__matrix_a558093032b9b1f54bf1bde7bfa847829_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacecg__poisson__matrix_a4762a692c1b2dd5070d070e90a30e8cd}\label{namespacecg__poisson__matrix_a4762a692c1b2dd5070d070e90a30e8cd}} 
+\index{cg\+\_\+poisson\+\_\+matrix@{cg\+\_\+poisson\+\_\+matrix}!cg\+\_\+solver\+\_\+poisson\+\_\+matrix@{cg\+\_\+solver\+\_\+poisson\+\_\+matrix}}
+\index{cg\+\_\+solver\+\_\+poisson\+\_\+matrix@{cg\+\_\+solver\+\_\+poisson\+\_\+matrix}!cg\+\_\+poisson\+\_\+matrix@{cg\+\_\+poisson\+\_\+matrix}}
+\subsubsection{\texorpdfstring{cg\+\_\+solver\+\_\+poisson\+\_\+matrix()}{cg\_solver\_poisson\_matrix()}}
+{\footnotesize\ttfamily subroutine, public cg\+\_\+poisson\+\_\+matrix\+::cg\+\_\+solver\+\_\+poisson\+\_\+matrix (\begin{DoxyParamCaption}\item[{real(kind=8), dimension(0\+:,0\+:,0\+:), intent(inout)}]{sol,  }\item[{type(\hyperlink{structmatrix_1_1matrix__heptadiagonal}{matrix\+\_\+heptadiagonal}), intent(in)}]{a\+\_\+poisson,  }\item[{real(kind=8), dimension(0\+:,0\+:,0\+:), intent(in)}]{rhs,  }\item[{type(\hyperlink{structgeometry_1_1subdomain}{subdomain}), intent(in)}]{dm,  }\item[{integer(kind=4), intent(in)}]{maxiteration,  }\item[{real(kind=8), intent(in)}]{tolerance,  }\item[{logical, dimension(0\+:2), intent(in)}]{is\+\_\+aggregated }\end{DoxyParamCaption})}
+
+
+
+Conjugate gradient solver with convergence criteria. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sol} & Result solution having a shape of 3D matrix \\
+\hline
+{\em a\+\_\+poisson} & Heptadiagonal poisson matrix \\
+\hline
+{\em rhs} & R\+HS vector having a shape of 3D matrix \\
+\hline
+{\em dm} & Subdomain \\
+\hline
+{\em maxiteration} & Maximum number of iterations \\
+\hline
+{\em tolerance} & Convergence criteria \\
+\hline
+{\em is\+\_\+aggregated} & Boolean whether domain is aggregated (.true.) or not (.false.) \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacecg__poisson__matrix_a4762a692c1b2dd5070d070e90a30e8cd_cgraph}
+\end{center}
+\end{figure}

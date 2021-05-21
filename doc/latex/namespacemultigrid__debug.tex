@@ -1,0 +1,199 @@
+\hypertarget{namespacemultigrid__debug}{}\section{multigrid\+\_\+debug Module Reference}
+\label{namespacemultigrid__debug}\index{multigrid\+\_\+debug@{multigrid\+\_\+debug}}
+
+
+Module for printing multigrid information for debugging.  
+
+
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine, public \hyperlink{namespacemultigrid__debug_aa5dcd15e32c5dc719638263835c5ed43}{multigrid\+\_\+debug\+\_\+print\+\_\+subdomain\+\_\+grid\+\_\+info} (sdm, mg\+\_\+sdm, n\+\_\+levels)
+\begin{DoxyCompactList}\small\item\em Print the grid information. \end{DoxyCompactList}\item 
+subroutine, public \hyperlink{namespacemultigrid__debug_aae55d6fc6a22d97825619d5bb58a1b88}{multigrid\+\_\+debug\+\_\+print\+\_\+poisson\+\_\+matrix\+\_\+info} (mg\+\_\+sdm, mg\+\_\+a\+\_\+poisson, lv)
+\begin{DoxyCompactList}\small\item\em Print the poisson matrix info in multigrid levels. \end{DoxyCompactList}\item 
+subroutine, public \hyperlink{namespacemultigrid__debug_a99e36a8239b91fbf3681cd88ab8f06dd}{multigrid\+\_\+debug\+\_\+print\+\_\+restriction\+\_\+info} (val\+\_\+c, val\+\_\+f, vol\+\_\+c, vol\+\_\+f, level, nx\+\_\+c, ny\+\_\+c, nz\+\_\+c, i\+\_\+stride\+\_\+f, j\+\_\+stride\+\_\+f, k\+\_\+stride\+\_\+f, i\+\_\+offset\+\_\+f, j\+\_\+offset\+\_\+f, k\+\_\+offset\+\_\+f)
+\begin{DoxyCompactList}\small\item\em Print the restriction results from finer grid to coarser grid. \end{DoxyCompactList}\item 
+subroutine, public \hyperlink{namespacemultigrid__debug_a4e9617a0cc65c4169970f289117de416}{multigrid\+\_\+debug\+\_\+print\+\_\+prolongation\+\_\+info} (val\+\_\+c, val\+\_\+f, level, nx\+\_\+f, ny\+\_\+f, nz\+\_\+f, i\+\_\+stride\+\_\+f, j\+\_\+stride\+\_\+f, k\+\_\+stride\+\_\+f, i\+\_\+offset\+\_\+f, j\+\_\+offset\+\_\+f, k\+\_\+offset\+\_\+f)
+\begin{DoxyCompactList}\small\item\em Print the prolongation results from coarser grid to finer grid. \end{DoxyCompactList}\item 
+subroutine, public \hyperlink{namespacemultigrid__debug_ad5c036138c7fd5e103641a667a88e6cf}{multigrid\+\_\+debug\+\_\+print\+\_\+coarsest\+\_\+level\+\_\+solution} (cyc, mg\+\_\+sdm)
+\begin{DoxyCompactList}\small\item\em Print the solution in the coarsest level. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module for printing multigrid information for debugging. 
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacemultigrid__debug_ad5c036138c7fd5e103641a667a88e6cf}\label{namespacemultigrid__debug_ad5c036138c7fd5e103641a667a88e6cf}} 
+\index{multigrid\+\_\+debug@{multigrid\+\_\+debug}!multigrid\+\_\+debug\+\_\+print\+\_\+coarsest\+\_\+level\+\_\+solution@{multigrid\+\_\+debug\+\_\+print\+\_\+coarsest\+\_\+level\+\_\+solution}}
+\index{multigrid\+\_\+debug\+\_\+print\+\_\+coarsest\+\_\+level\+\_\+solution@{multigrid\+\_\+debug\+\_\+print\+\_\+coarsest\+\_\+level\+\_\+solution}!multigrid\+\_\+debug@{multigrid\+\_\+debug}}
+\subsubsection{\texorpdfstring{multigrid\+\_\+debug\+\_\+print\+\_\+coarsest\+\_\+level\+\_\+solution()}{multigrid\_debug\_print\_coarsest\_level\_solution()}}
+{\footnotesize\ttfamily subroutine, public multigrid\+\_\+debug\+::multigrid\+\_\+debug\+\_\+print\+\_\+coarsest\+\_\+level\+\_\+solution (\begin{DoxyParamCaption}\item[{integer(kind=4), intent(in)}]{cyc,  }\item[{type(\hyperlink{structgeometry_1_1subdomain}{subdomain}), intent(in)}]{mg\+\_\+sdm }\end{DoxyParamCaption})}
+
+
+
+Print the solution in the coarsest level. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cyc} & V-\/cycle number \\
+\hline
+{\em mg\+\_\+sdm} & Target multigrid subdomain \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacemultigrid__debug_ad5c036138c7fd5e103641a667a88e6cf_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacemultigrid__debug_aae55d6fc6a22d97825619d5bb58a1b88}\label{namespacemultigrid__debug_aae55d6fc6a22d97825619d5bb58a1b88}} 
+\index{multigrid\+\_\+debug@{multigrid\+\_\+debug}!multigrid\+\_\+debug\+\_\+print\+\_\+poisson\+\_\+matrix\+\_\+info@{multigrid\+\_\+debug\+\_\+print\+\_\+poisson\+\_\+matrix\+\_\+info}}
+\index{multigrid\+\_\+debug\+\_\+print\+\_\+poisson\+\_\+matrix\+\_\+info@{multigrid\+\_\+debug\+\_\+print\+\_\+poisson\+\_\+matrix\+\_\+info}!multigrid\+\_\+debug@{multigrid\+\_\+debug}}
+\subsubsection{\texorpdfstring{multigrid\+\_\+debug\+\_\+print\+\_\+poisson\+\_\+matrix\+\_\+info()}{multigrid\_debug\_print\_poisson\_matrix\_info()}}
+{\footnotesize\ttfamily subroutine, public multigrid\+\_\+debug\+::multigrid\+\_\+debug\+\_\+print\+\_\+poisson\+\_\+matrix\+\_\+info (\begin{DoxyParamCaption}\item[{type(\hyperlink{structgeometry_1_1subdomain}{subdomain}), intent(in)}]{mg\+\_\+sdm,  }\item[{type(\hyperlink{structmatrix_1_1matrix__heptadiagonal}{matrix\+\_\+heptadiagonal}), intent(in)}]{mg\+\_\+a\+\_\+poisson,  }\item[{integer(kind=4), intent(in)}]{lv }\end{DoxyParamCaption})}
+
+
+
+Print the poisson matrix info in multigrid levels. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mg\+\_\+sdm} & Target multigrid subdomain \\
+\hline
+{\em mg\+\_\+a\+\_\+poisson} & Target Poisson matrix in multigrid level \\
+\hline
+{\em lv} & Target multigrid level \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacemultigrid__debug_aae55d6fc6a22d97825619d5bb58a1b88_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacemultigrid__debug_a4e9617a0cc65c4169970f289117de416}\label{namespacemultigrid__debug_a4e9617a0cc65c4169970f289117de416}} 
+\index{multigrid\+\_\+debug@{multigrid\+\_\+debug}!multigrid\+\_\+debug\+\_\+print\+\_\+prolongation\+\_\+info@{multigrid\+\_\+debug\+\_\+print\+\_\+prolongation\+\_\+info}}
+\index{multigrid\+\_\+debug\+\_\+print\+\_\+prolongation\+\_\+info@{multigrid\+\_\+debug\+\_\+print\+\_\+prolongation\+\_\+info}!multigrid\+\_\+debug@{multigrid\+\_\+debug}}
+\subsubsection{\texorpdfstring{multigrid\+\_\+debug\+\_\+print\+\_\+prolongation\+\_\+info()}{multigrid\_debug\_print\_prolongation\_info()}}
+{\footnotesize\ttfamily subroutine, public multigrid\+\_\+debug\+::multigrid\+\_\+debug\+\_\+print\+\_\+prolongation\+\_\+info (\begin{DoxyParamCaption}\item[{real(kind=8), dimension(0\+:,0\+:,0\+:), intent(in)}]{val\+\_\+c,  }\item[{real(kind=8), dimension(0\+:,0\+:,0\+:), intent(in)}]{val\+\_\+f,  }\item[{integer(kind=4), intent(in)}]{level,  }\item[{integer(kind=4), intent(in)}]{nx\+\_\+f,  }\item[{integer(kind=4), intent(in)}]{ny\+\_\+f,  }\item[{integer(kind=4), intent(in)}]{nz\+\_\+f,  }\item[{integer(kind=4), intent(in)}]{i\+\_\+stride\+\_\+f,  }\item[{integer(kind=4), intent(in)}]{j\+\_\+stride\+\_\+f,  }\item[{integer(kind=4), intent(in)}]{k\+\_\+stride\+\_\+f,  }\item[{integer(kind=4), intent(in)}]{i\+\_\+offset\+\_\+f,  }\item[{integer(kind=4), intent(in)}]{j\+\_\+offset\+\_\+f,  }\item[{integer(kind=4), intent(in)}]{k\+\_\+offset\+\_\+f }\end{DoxyParamCaption})}
+
+
+
+Print the prolongation results from coarser grid to finer grid. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em val\+\_\+c} & grid variables in coarser grid \\
+\hline
+{\em val\+\_\+f} & grid variables in finer grid \\
+\hline
+{\em level} & Restriction level \\
+\hline
+{\em nx\+\_\+c} & Number of grids in coarser grid in x-\/direction \\
+\hline
+{\em ny\+\_\+c} & Number of grids in coarser grid in y-\/direction \\
+\hline
+{\em nz\+\_\+c} & Number of grids in coarser grid in z-\/direction \\
+\hline
+{\em i\+\_\+stride\+\_\+f} & 2 if not aggretated, 1 if aggregated \\
+\hline
+{\em j\+\_\+stride\+\_\+f} & 2 if not aggretated, 1 if aggregated \\
+\hline
+{\em k\+\_\+stride\+\_\+f} & 2 if not aggretated, 1 if aggregated \\
+\hline
+{\em i\+\_\+offset\+\_\+f} & 1 if not aggretated, 0 if aggregated \\
+\hline
+{\em j\+\_\+offset\+\_\+f} & 1 if not aggretated, 0 if aggregated \\
+\hline
+{\em k\+\_\+offset\+\_\+f} & 1 if not aggretated, 0 if aggregated \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacemultigrid__debug_a4e9617a0cc65c4169970f289117de416_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacemultigrid__debug_a99e36a8239b91fbf3681cd88ab8f06dd}\label{namespacemultigrid__debug_a99e36a8239b91fbf3681cd88ab8f06dd}} 
+\index{multigrid\+\_\+debug@{multigrid\+\_\+debug}!multigrid\+\_\+debug\+\_\+print\+\_\+restriction\+\_\+info@{multigrid\+\_\+debug\+\_\+print\+\_\+restriction\+\_\+info}}
+\index{multigrid\+\_\+debug\+\_\+print\+\_\+restriction\+\_\+info@{multigrid\+\_\+debug\+\_\+print\+\_\+restriction\+\_\+info}!multigrid\+\_\+debug@{multigrid\+\_\+debug}}
+\subsubsection{\texorpdfstring{multigrid\+\_\+debug\+\_\+print\+\_\+restriction\+\_\+info()}{multigrid\_debug\_print\_restriction\_info()}}
+{\footnotesize\ttfamily subroutine, public multigrid\+\_\+debug\+::multigrid\+\_\+debug\+\_\+print\+\_\+restriction\+\_\+info (\begin{DoxyParamCaption}\item[{real(kind=8), dimension(0\+:,0\+:,0\+:), intent(in)}]{val\+\_\+c,  }\item[{real(kind=8), dimension(0\+:,0\+:,0\+:), intent(in)}]{val\+\_\+f,  }\item[{real(kind=8), intent(in)}]{vol\+\_\+c,  }\item[{real(kind=8), dimension(2,2,2), intent(in)}]{vol\+\_\+f,  }\item[{integer(kind=4), intent(in)}]{level,  }\item[{integer(kind=4), intent(in)}]{nx\+\_\+c,  }\item[{integer(kind=4), intent(in)}]{ny\+\_\+c,  }\item[{integer(kind=4), intent(in)}]{nz\+\_\+c,  }\item[{integer(kind=4), intent(in)}]{i\+\_\+stride\+\_\+f,  }\item[{integer(kind=4), intent(in)}]{j\+\_\+stride\+\_\+f,  }\item[{integer(kind=4), intent(in)}]{k\+\_\+stride\+\_\+f,  }\item[{integer(kind=4), intent(in)}]{i\+\_\+offset\+\_\+f,  }\item[{integer(kind=4), intent(in)}]{j\+\_\+offset\+\_\+f,  }\item[{integer(kind=4), intent(in)}]{k\+\_\+offset\+\_\+f }\end{DoxyParamCaption})}
+
+
+
+Print the restriction results from finer grid to coarser grid. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em val\+\_\+c} & grid variables in coarser grid \\
+\hline
+{\em val\+\_\+f} & grid variables in finer grid \\
+\hline
+{\em vol\+\_\+c} & grid volume in coarser level (1x1x1) \\
+\hline
+{\em vol\+\_\+f} & grid volume in finer level (2x2x2) \\
+\hline
+{\em level} & Restriction level \\
+\hline
+{\em nx\+\_\+c} & Number of grids in coarser grid in x-\/direction \\
+\hline
+{\em ny\+\_\+c} & Number of grids in coarser grid in y-\/direction \\
+\hline
+{\em nz\+\_\+c} & Number of grids in coarser grid in z-\/direction \\
+\hline
+{\em i\+\_\+stride\+\_\+f} & 2 if not aggretated, 1 if aggregated \\
+\hline
+{\em j\+\_\+stride\+\_\+f} & 2 if not aggretated, 1 if aggregated \\
+\hline
+{\em k\+\_\+stride\+\_\+f} & 2 if not aggretated, 1 if aggregated \\
+\hline
+{\em i\+\_\+offset\+\_\+f} & 1 if not aggretated, 0 if aggregated \\
+\hline
+{\em j\+\_\+offset\+\_\+f} & 1 if not aggretated, 0 if aggregated \\
+\hline
+{\em k\+\_\+offset\+\_\+f} & 1 if not aggretated, 0 if aggregated \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacemultigrid__debug_a99e36a8239b91fbf3681cd88ab8f06dd_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacemultigrid__debug_aa5dcd15e32c5dc719638263835c5ed43}\label{namespacemultigrid__debug_aa5dcd15e32c5dc719638263835c5ed43}} 
+\index{multigrid\+\_\+debug@{multigrid\+\_\+debug}!multigrid\+\_\+debug\+\_\+print\+\_\+subdomain\+\_\+grid\+\_\+info@{multigrid\+\_\+debug\+\_\+print\+\_\+subdomain\+\_\+grid\+\_\+info}}
+\index{multigrid\+\_\+debug\+\_\+print\+\_\+subdomain\+\_\+grid\+\_\+info@{multigrid\+\_\+debug\+\_\+print\+\_\+subdomain\+\_\+grid\+\_\+info}!multigrid\+\_\+debug@{multigrid\+\_\+debug}}
+\subsubsection{\texorpdfstring{multigrid\+\_\+debug\+\_\+print\+\_\+subdomain\+\_\+grid\+\_\+info()}{multigrid\_debug\_print\_subdomain\_grid\_info()}}
+{\footnotesize\ttfamily subroutine, public multigrid\+\_\+debug\+::multigrid\+\_\+debug\+\_\+print\+\_\+subdomain\+\_\+grid\+\_\+info (\begin{DoxyParamCaption}\item[{type(\hyperlink{structgeometry_1_1subdomain}{subdomain}), intent(in)}]{sdm,  }\item[{type(\hyperlink{structgeometry_1_1subdomain}{subdomain}), dimension(\+:), intent(in)}]{mg\+\_\+sdm,  }\item[{integer(kind=4), intent(in)}]{n\+\_\+levels }\end{DoxyParamCaption})}
+
+
+
+Print the grid information. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sdm} & Subdomain \\
+\hline
+{\em mg\+\_\+sdm} & Multigrid subdomains \\
+\hline
+{\em n\+\_\+levels} & Number of multigrid levels \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacemultigrid__debug_aa5dcd15e32c5dc719638263835c5ed43_icgraph}
+\end{center}
+\end{figure}

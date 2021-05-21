@@ -1,0 +1,88 @@
+\hypertarget{namespacepoisson__matrix__operator}{}\section{poisson\+\_\+matrix\+\_\+operator Module Reference}
+\label{namespacepoisson__matrix__operator}\index{poisson\+\_\+matrix\+\_\+operator@{poisson\+\_\+matrix\+\_\+operator}}
+
+
+Module for matrix operations of heptadiagonal poisson matrix.  
+
+
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine, public \hyperlink{namespacepoisson__matrix__operator_a10219d15282e48b5afab88408912fb2f}{vv\+\_\+dot\+\_\+3d\+\_\+matrix} (result, x, y, nx, ny, nz, is\+\_\+serial)
+\begin{DoxyCompactList}\small\item\em Inner product for 3D matrix x and 3D matrix y. A 3D matrix is treated as a vector. \end{DoxyCompactList}\item 
+subroutine, public \hyperlink{namespacepoisson__matrix__operator_a0a0591ff6a44595b830d4d0655e25106}{mv\+\_\+mul\+\_\+poisson\+\_\+matrix} (y, a\+\_\+poisson, x, dm, is\+\_\+serial)
+\begin{DoxyCompactList}\small\item\em MV multiplication for heptadiagonal poisson matrix a\+\_\+poisson and 3D matrix x 3D matrix is treated as a vector and poisson matrix is treated as a matrix. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module for matrix operations of heptadiagonal poisson matrix. 
+
+MV multiplication and VV inner product 
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacepoisson__matrix__operator_a0a0591ff6a44595b830d4d0655e25106}\label{namespacepoisson__matrix__operator_a0a0591ff6a44595b830d4d0655e25106}} 
+\index{poisson\+\_\+matrix\+\_\+operator@{poisson\+\_\+matrix\+\_\+operator}!mv\+\_\+mul\+\_\+poisson\+\_\+matrix@{mv\+\_\+mul\+\_\+poisson\+\_\+matrix}}
+\index{mv\+\_\+mul\+\_\+poisson\+\_\+matrix@{mv\+\_\+mul\+\_\+poisson\+\_\+matrix}!poisson\+\_\+matrix\+\_\+operator@{poisson\+\_\+matrix\+\_\+operator}}
+\subsubsection{\texorpdfstring{mv\+\_\+mul\+\_\+poisson\+\_\+matrix()}{mv\_mul\_poisson\_matrix()}}
+{\footnotesize\ttfamily subroutine, public poisson\+\_\+matrix\+\_\+operator\+::mv\+\_\+mul\+\_\+poisson\+\_\+matrix (\begin{DoxyParamCaption}\item[{real(kind=8), dimension(0\+:,0\+:,0\+:), intent(out)}]{y,  }\item[{type(\hyperlink{structmatrix_1_1matrix__heptadiagonal}{matrix\+\_\+heptadiagonal}), intent(in)}]{a\+\_\+poisson,  }\item[{real(kind=8), dimension(0\+:,0\+:,0\+:), intent(inout)}]{x,  }\item[{type(\hyperlink{structgeometry_1_1subdomain}{subdomain}), intent(in)}]{dm,  }\item[{logical, dimension(0\+:2), intent(in)}]{is\+\_\+serial }\end{DoxyParamCaption})}
+
+
+
+MV multiplication for heptadiagonal poisson matrix a\+\_\+poisson and 3D matrix x 3D matrix is treated as a vector and poisson matrix is treated as a matrix. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em y} & MV result 3D matrix \\
+\hline
+{\em a\+\_\+poisson} & Heptadiagonal poisson matrix \\
+\hline
+{\em x} & 3D matrix x \\
+\hline
+{\em dm} & Subdomain \\
+\hline
+{\em is\+\_\+serial} & Boolean whether domain is aggregated (.true.) or not (.false.) (aggregated = serial) \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacepoisson__matrix__operator_a0a0591ff6a44595b830d4d0655e25106_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacepoisson__matrix__operator_a10219d15282e48b5afab88408912fb2f}\label{namespacepoisson__matrix__operator_a10219d15282e48b5afab88408912fb2f}} 
+\index{poisson\+\_\+matrix\+\_\+operator@{poisson\+\_\+matrix\+\_\+operator}!vv\+\_\+dot\+\_\+3d\+\_\+matrix@{vv\+\_\+dot\+\_\+3d\+\_\+matrix}}
+\index{vv\+\_\+dot\+\_\+3d\+\_\+matrix@{vv\+\_\+dot\+\_\+3d\+\_\+matrix}!poisson\+\_\+matrix\+\_\+operator@{poisson\+\_\+matrix\+\_\+operator}}
+\subsubsection{\texorpdfstring{vv\+\_\+dot\+\_\+3d\+\_\+matrix()}{vv\_dot\_3d\_matrix()}}
+{\footnotesize\ttfamily subroutine, public poisson\+\_\+matrix\+\_\+operator\+::vv\+\_\+dot\+\_\+3d\+\_\+matrix (\begin{DoxyParamCaption}\item[{real(kind=8), intent(out)}]{result,  }\item[{real(kind=8), dimension(0\+:,0\+:,0\+:), intent(in)}]{x,  }\item[{real(kind=8), dimension(0\+:,0\+:,0\+:), intent(in)}]{y,  }\item[{integer(kind=4), intent(in)}]{nx,  }\item[{integer(kind=4), intent(in)}]{ny,  }\item[{integer(kind=4), intent(in)}]{nz,  }\item[{logical, dimension(0\+:2), intent(in)}]{is\+\_\+serial }\end{DoxyParamCaption})}
+
+
+
+Inner product for 3D matrix x and 3D matrix y. A 3D matrix is treated as a vector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em result} & Inner product result \\
+\hline
+{\em x} & 3D matrix x \\
+\hline
+{\em y} & 3D matrix y \\
+\hline
+{\em nx} & Size of 3D matrix in x-\/direction \\
+\hline
+{\em ny} & Size of 3D matrix in y-\/direction \\
+\hline
+{\em nz} & Size of 3D matrix in z-\/direction \\
+\hline
+{\em is\+\_\+serial} & Boolean whether domain is aggregated (.true.) or not (.false.) (aggregated = serial) \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacepoisson__matrix__operator_a10219d15282e48b5afab88408912fb2f_icgraph}
+\end{center}
+\end{figure}

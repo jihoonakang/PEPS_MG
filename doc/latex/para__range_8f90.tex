@@ -1,0 +1,71 @@
+\hypertarget{para__range_8f90}{}\section{/home/jihoon/\+Develop/\+P\+E\+P\+S\+\_\+\+M\+G/src/para\+\_\+range.f90 File Reference}
+\label{para__range_8f90}\index{/home/jihoon/\+Develop/\+P\+E\+P\+S\+\_\+\+M\+G/src/para\+\_\+range.\+f90@{/home/jihoon/\+Develop/\+P\+E\+P\+S\+\_\+\+M\+G/src/para\+\_\+range.\+f90}}
+
+
+The para\+\_\+range function assigns the computing range to each M\+PI process.  
+
+
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \hyperlink{para__range_8f90_ab75ab386311975aa4ff7cac06798fcd4}{para\+\_\+range} (n1, n2, nprocs, myrank, ista, iend)
+\begin{DoxyCompactList}\small\item\em Compute the indices of the assigned range for each M\+PI process . \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The para\+\_\+range function assigns the computing range to each M\+PI process. 
+
+\begin{DoxyAuthor}{Author}
+
+\begin{DoxyItemize}
+\item Ji-\/\+Hoon Kang (\href{mailto:jhkang@kisti.re.kr}{\tt jhkang@kisti.\+re.\+kr}), Korea Institute of Science and Technology Information
+\end{DoxyItemize}
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+May 2021 
+\end{DoxyDate}
+\begin{DoxyVersion}{Version}
+1.\+0 
+\end{DoxyVersion}
+\begin{DoxyParagraph}{Copyright}
+Copyright (c) 2021 Ji-\/\+Hoon Kang, Korea Institute of Science and Technology Information, All rights reserved. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{License }
+This project is release under the terms of the M\+IT License (see L\+I\+C\+E\+N\+SE in ) 
+\end{DoxyParagraph}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{para__range_8f90_ab75ab386311975aa4ff7cac06798fcd4}\label{para__range_8f90_ab75ab386311975aa4ff7cac06798fcd4}} 
+\index{para\+\_\+range.\+f90@{para\+\_\+range.\+f90}!para\+\_\+range@{para\+\_\+range}}
+\index{para\+\_\+range@{para\+\_\+range}!para\+\_\+range.\+f90@{para\+\_\+range.\+f90}}
+\subsubsection{\texorpdfstring{para\+\_\+range()}{para\_range()}}
+{\footnotesize\ttfamily subroutine para\+\_\+range (\begin{DoxyParamCaption}\item[{integer(kind=4), intent(in)}]{n1,  }\item[{integer(kind=4), intent(in)}]{n2,  }\item[{integer(kind=4), intent(in)}]{nprocs,  }\item[{integer(kind=4), intent(in)}]{myrank,  }\item[{integer(kind=4), intent(out)}]{ista,  }\item[{integer(kind=4), intent(out)}]{iend }\end{DoxyParamCaption})}
+
+
+
+Compute the indices of the assigned range for each M\+PI process . 
+
+
+\begin{DoxyParams}{Parameters}
+{\em n1} & First index of total range \\
+\hline
+{\em n2} & Last index of total range \\
+\hline
+{\em nprocs} & Number of M\+PI process \\
+\hline
+{\em myrank} & Rank ID of my M\+PI process \\
+\hline
+{\em ista} & First index of assigned range for myrank \\
+\hline
+{\em iend} & Last index of assigned range for myrank \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=285pt]{para__range_8f90_ab75ab386311975aa4ff7cac06798fcd4_icgraph}
+\end{center}
+\end{figure}
